@@ -86,18 +86,19 @@ public class Sudoku {
     public void print() {
         //TODO: Implement printing.
         System.out.println(new String(new char[9*4+1]).replace("\0", "#"));
-        int count = 0;
+        int count = 1;
         for (char[] row : this.grid) {
             // This ugly piece is supposed to be temporary. Seeing it is a testament to my failure.
             System.out.format("# %s | %s | %s # %s | %s | %s # %s | %s | %s #%n",
                     row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8]);
             
-            if (count % 3 == 0){
+            if (count % 3 != 0){
                 System.out.println("#---+---+---#---+---+---#---+---+---#");
             }
             else {
                 System.out.println(new String(new char[9*4+1]).replace("\0", "#"));
             }
+            count++;
         }
     }
     
