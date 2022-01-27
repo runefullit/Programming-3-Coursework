@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collections;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -18,7 +17,7 @@ public class Standings {
 
     public static class Team {
         
-        String name;
+        private String name;
         private int wins;
         private int ties;
         private int losses;
@@ -34,35 +33,6 @@ public class Standings {
             this.scored = 0;
             this.allowed = 0;
             this.points = 0;
-        }
-        
-        @Override
-        public boolean equals (final Object o){
-            if (o == null) {
-                return false;
-            }
-            if (!(o instanceof Team)) {
-                return false;
-            }
-            if (o == this) {
-                return true;
-            }
-            
-            final Team other = (Team) o;
-            return other.name.equals(this.name);
-        }
-        
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            
-            result = prime * result;
-            if (this.name != null) {
-                result += this.name.hashCode();
-            }
-            
-            return result;
         }
         
         public String getName() {
@@ -81,7 +51,7 @@ public class Standings {
             return losses;
         }
         
-        public int getMatches() {
+        private int getMatches() {
             return wins + losses + ties;
         }
         
@@ -121,7 +91,7 @@ public class Standings {
         
     }
     
-    ArrayList<Team> teams = new ArrayList<Team>();
+    private ArrayList<Team> teams = new ArrayList<Team>();
     
     public Standings(){
         
@@ -154,19 +124,15 @@ public class Standings {
     }
     
     public void addMatchResult(String teamNameA, int goalsA, int goalsB, String teamNameB) {
-        final Team needleA = new Team(teamNameA);
-        if (!teams.contains(needleA)) {
+        if (teamArrayIndex(teamNameA) == -1) {
             teams.add(new Team(teamNameA));
-            System.out.println(teamNameA + " added.");
         }
-        final Team needleB = new Team(teamNameB);
-        if (!teams.contains(needleB)) {
+        if (teamArrayIndex(teamNameB) == -1) {
             teams.add(new Team(teamNameB));
-            System.out.println(teamNameB + " added.");
         }
         
-        Team teamA = teams.get(teams.indexOf(needleA));
-        Team teamB = teams.get(teams.indexOf(needleB));
+        Team teamA = teams.get(teamArrayIndex(teamNameA));
+        Team teamB = teams.get(teamArrayIndex(teamNameB));
         
         // Add info on goals scored
         teamA.addScored(goalsA);
@@ -218,6 +184,17 @@ public class Standings {
             }
         }
         return l;
+    }
+    
+    private int teamArrayIndex(String teamName) {
+        int index = 0;
+        for (Team t : teams) {
+            if(t.getName().equals(teamName)) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
     }
     
     private void sortStandings() {
