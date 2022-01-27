@@ -28,6 +28,9 @@ public class Sudoku {
      */
     public void set(int i, int j, char c) {
         try {
+            // This ugly piece tries to kick off the Index excetion before
+            // the if-else control structure.
+            this.grid[i][j] = this.grid[i][j];
             if ( c == ' ' | Character.isDigit(c)){
                 this.grid[i][j] = c;
             }
