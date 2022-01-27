@@ -32,10 +32,12 @@ public class StudentRegister {
     
     public void addStudent(Student student) {
         this.students.add(student);
+        this.students.sort((a,b) -> (a.getName().compareTo(b.getName())));
     }
     
     public void addCourse(Course course) {
         this.courses.add(course);
+        this.courses.sort((a,b) -> (a.getName().compareTo(b.getName())));
     }
     
     public void addAttainment(Attainment att) {
@@ -43,7 +45,6 @@ public class StudentRegister {
     }
     
     public void printStudentAttainments(String studentNumber, String order) {
-        System.out.format("We preted that this is sorted with oder: %s%n", order);
         ArrayList<Attainment> tempCopy = new ArrayList<>();
         tempCopy.addAll(this.attainments);
         sortAttainments(order);
@@ -101,11 +102,11 @@ public class StudentRegister {
     private  void sortAttainments(String order) {
         if (order.equals("by name")){
             this.attainments.sort((a,b) -> (
-                    fetchCourseName( a.getCourseCode() ).compareTo( fetchCourseName( b.getCourseCode() ) )
+                    fetchCourseName( a.getCourseCode() ).toUpperCase().compareTo( fetchCourseName( b.getCourseCode() ).toUpperCase() )
                     ));
         }
-        else if (order.equals("by order")) {
-            this.attainments.sort((a,b) -> (b.getCourseCode().compareTo(a.getCourseCode())));
+        else if (order.equals("by code")) {
+            this.attainments.sort((a,b) -> (a.getCourseCode().compareTo(b.getCourseCode())));
         }
     }
     
