@@ -29,9 +29,9 @@ public class Dates {
         
         @Override
         public String toString(){
-                String mOut = String.format("%s -> %s: %d days",
-                        start.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).localizedBy(Locale.GERMANY)),
-                        end.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).localizedBy(Locale.GERMANY)),
+                String mOut = String.format("%s --> %s: %d days",
+                        start.format(DateTimeFormatter.ofPattern("EEEE dd.MM.yyyy")),
+                        end.format(DateTimeFormatter.ofPattern("EEEE dd.MM.yyyy")),
                        diff);
             return mOut;
         }
@@ -52,6 +52,7 @@ public class Dates {
     public static DateDiff[] dateDiffs(String ...dateStrs) throws DateTimeException{
         ArrayList<String> validDateStrs = new ArrayList<>();
         for (String dateStr : dateStrs){
+            String original = dateStr;
             if (isDotSeparated(dateStr)) {
                 dateStr = convertToISO(dateStr);
             }
@@ -59,7 +60,7 @@ public class Dates {
                 LocalDate d = LocalDate.parse(dateStr);
                 validDateStrs.add(dateStr);
             } catch(DateTimeException e) {
-                System.out.format("The date %s is illegal!%n", dateStr);
+                System.out.format("The date \"%s\" is illegal!%n", original);
             }
         }
         validDateStrs.sort((a,b) -> (LocalDate.parse(a).compareTo(LocalDate.parse(b))));
