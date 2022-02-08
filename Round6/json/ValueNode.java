@@ -24,7 +24,7 @@ public class ValueNode extends Node{
     }
     
     public boolean isNumber(){
-        return (value instanceof Integer);
+        return (value instanceof Double);
     }
     
     public boolean isBoolean(){
