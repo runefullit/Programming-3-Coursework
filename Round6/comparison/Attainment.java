@@ -56,7 +56,7 @@ public class Attainment  implements Comparable<Attainment>{
     
     @Override
     public String toString(){
-        return String.format("%s %s %d", courseCode, studentNumber, grade);
+        return String.format("%s %s %d%n", courseCode, studentNumber, grade);
     }
     
     @Override
