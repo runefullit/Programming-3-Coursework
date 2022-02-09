@@ -21,11 +21,7 @@ public abstract class Node {
   }
 
   public void printJson() {
-      if (false){
-          throw new UnsupportedOperationException("printJson has not been implemented!");
-      } else {
-          System.out.print(printJson(this,""));
-      }
+    System.out.print(printJson(this,""));
   }
   
 /**
