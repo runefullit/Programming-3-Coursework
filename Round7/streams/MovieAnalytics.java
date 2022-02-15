@@ -29,7 +29,7 @@ public class MovieAnalytics {
     static Consumer<Movie> showInfo(){
         return new Consumer<Movie>(){
             public void accept(Movie t){
-                System.out.format("%s (%s, %d)%n", t.getTitle(), t.getDirector(), t.getReleaseYear());
+                System.out.format("%s (By %s, %d)%n", t.getTitle(), t.getDirector(), t.getReleaseYear());
             }
         };
     }
