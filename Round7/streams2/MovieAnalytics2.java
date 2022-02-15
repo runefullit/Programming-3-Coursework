@@ -51,7 +51,7 @@ public class MovieAnalytics2 {
     
     public void printAverageDurationByGenre(){
         final Comparator<Map.Entry<String, Double>> byDuration= 
-            Map.Entry.comparingByValue(Comparator.reverseOrder());
+            Map.Entry.comparingByValue();
         final Comparator<Map.Entry<String, Double>> byGenre =
             Map.Entry.comparingByKey();
         Arrays.stream(movieList)
