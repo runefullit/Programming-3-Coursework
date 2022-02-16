@@ -98,7 +98,7 @@ public class NdArray<E> extends AbstractCollection<E>{
             for (int i = 0; i < indices.length; i++) {
                 if (indices[i] > dims[i] - 1){
                     throw new IndexOutOfBoundsException(String.format("Illegal index %d for dimension %d of length %d.",
-                            indices[i], i, dims[i]));
+                            indices[i], i+1, dims[i]));
                 }
             }
         }
