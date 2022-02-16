@@ -1,5 +1,4 @@
 
-import java.lang.reflect.Array;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,24 +16,36 @@ import java.util.stream.Stream;
  */
 public class NdArray<E> extends AbstractCollection<E>{
     
-    private final int nDims;
-    private final int[] dims;
-    private final ArrayList<E> arrayContainer;
+    private class NdArrayIterator implements Iterator<E> {
+
+        private int i = 0;
+        
+        @Override
+        public boolean hasNext() {
+            return arrayContainer.length > i;
+        }
+
+        @Override
+        public E next() {
+            return arrayContainer[i++];
+        }
+        
+    }
     
-    NdArray(Integer firstDimLen, Integer ...furtherDimLens) throws NegativeArraySizeException{
+    private final int[] dims;
+    private final E[] arrayContainer;
+    
+    NdArray(Integer firstDimLen, Integer ...furtherDimLens){
         // Check thet all dimensions are non-negative
         if(firstDimLen <= 0){
-            throw new NegativeArraySizeException(String.format("Illegal dimension size %d", firstDimLen));
+            throw new NegativeArraySizeException(String.format("Illegal dimension size %d.", firstDimLen));
         } else {
             for(int dimLen: furtherDimLens){
                 if (dimLen <= 0){
-                    throw new NegativeArraySizeException(String.format("Illegal dimension size %d", dimLen));
+                    throw new NegativeArraySizeException(String.format("Illegal dimension size %d.", dimLen));
                 }
             }
         }
-        
-        // Store number of dimensions into nDims
-        nDims = 1 + furtherDimLens.length;
         
         // Storing dimensions into an array
         dims = Stream.concat(Stream.of(firstDimLen), Arrays.stream(furtherDimLens))
@@ -45,7 +56,7 @@ public class NdArray<E> extends AbstractCollection<E>{
         for (int e : dims){
             prodDims *= e;
         }
-        arrayContainer = new ArrayList<>(prodDims);
+        arrayContainer = (E[]) new Object[prodDims];
     }
     
     @Override
@@ -55,14 +66,56 @@ public class NdArray<E> extends AbstractCollection<E>{
 
     @Override
     public Iterator<E> iterator() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new NdArrayIterator();
     }
     
-    public E get(int... indices){
-        int index = Arrays.stream(indices).limit(indices.length - 1)
-                .reduce(1, (a,b) -> (a*b)) + indices[indices.length - 1];
-        return arrayContainer.get(index);
+    public E get(int... indices) {
+        checkIndices(indices);
+        // Find the index on our row-major layout.
+        return arrayContainer[getIndex(indices, dims)];
     }
     
+    public void set(E item, int... indices) {
+        checkIndices(indices);
+        arrayContainer[getIndex(indices,dims)] = item;
+    }
+    
+    public int[] getDimensions(){
+        return dims;
+    }
+    
+    private void checkIndices(int[] indices){
+        /*
+        Check that the coordinates in the indices are legal.
+        */
+        if (indices.length != dims.length){
+            throw new IllegalArgumentException(String.format("The array has %d dimensions but %d indices were given.",
+                    dims.length, indices.length));
+        } else {
+            for (int i = 0; i < indices.length; i++) {
+                if (indices[i] > dims[i] - 1){
+                    throw new IndexOutOfBoundsException(String.format("Illegal index %d for dimension %d of length %d.",
+                            indices[i], i, dims[i]));
+                }
+            }
+        }
+    }
+    
+    private int getIndex(int[] indices, int[] dims){
+        /*
+        Given coordinates and matrix dimensions, finds row-major coordinate recursively.
+        */
+        if(indices.length > 1){
+            int lastIndice = indices[indices.length - 1];
+            int lastDim = dims[dims.length - 1];
+
+            int[] poppedIndices = Arrays.copyOf(indices, indices.length - 1);
+            int[] poppedDims = Arrays.copyOf(dims, dims.length - 1);
+
+            return (lastIndice + lastDim * getIndex(poppedIndices, poppedDims));
+        } else {
+            return indices[0];
+        }
+    }
     
 }
