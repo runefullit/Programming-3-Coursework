@@ -1,6 +1,5 @@
 
 import java.util.AbstractCollection;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.stream.Stream;
@@ -17,6 +16,9 @@ import java.util.stream.Stream;
 public class NdArray<E> extends AbstractCollection<E>{
     
     private class NdArrayIterator implements Iterator<E> {
+        /*
+        Simple iterator for a java Array
+        */
 
         private int i = 0;
         
@@ -32,6 +34,7 @@ public class NdArray<E> extends AbstractCollection<E>{
         
     }
     
+    // Class variables
     private final int[] dims;
     private final E[] arrayContainer;
     
