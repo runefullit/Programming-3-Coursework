@@ -40,7 +40,8 @@ public class SevenZipSearchMain {
                     int lineNumber = 1;
                     String line;
                     while ((line = br.readLine()) != null){
-                        if (line.toLowerCase().contains(sTerm)){
+                        // Finding case insensitive matches; contains doesn't support regex
+                        if (line.toLowerCase().contains(sTerm.toLowerCase())){
                             String capsLine = line.replaceAll("(?i)" + sTerm, sTerm.toUpperCase());
                             System.out.format("%d: %s%n", lineNumber, capsLine);
                         }
