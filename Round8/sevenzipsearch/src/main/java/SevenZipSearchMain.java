@@ -40,8 +40,7 @@ public class SevenZipSearchMain {
                     String line;
                     while ((line = br.readLine()) != null){
                         if (line.toLowerCase().contains(sTerm)){
-                            String capsLine = Arrays.stream(line.split(" "))
-                                    .map(a -> (a.toLowerCase().contains(sTerm) ? a.toUpperCase() : a)).collect(Collectors.joining(" "));
+                            String capsLine = line.replaceAll(sTerm, sTerm.toUpperCase());
                             System.out.format("%d: %s%n", lineNumber, capsLine);
                         }
                         lineNumber++;
