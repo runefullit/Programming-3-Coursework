@@ -3,6 +3,7 @@ import org.apache.commons.compress.archivers.sevenz.SevenZFile;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class SevenZipSearchMain {
@@ -40,7 +41,7 @@ public class SevenZipSearchMain {
                     String line;
                     while ((line = br.readLine()) != null){
                         if (line.toLowerCase().contains(sTerm)){
-                            String capsLine = line.replaceAll(sTerm, sTerm.toUpperCase());
+                            String capsLine = line.replaceAll("(?i)" + sTerm, sTerm.toUpperCase());
                             System.out.format("%d: %s%n", lineNumber, capsLine);
                         }
                         lineNumber++;
