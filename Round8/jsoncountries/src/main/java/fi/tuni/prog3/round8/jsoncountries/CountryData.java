@@ -2,15 +2,32 @@ package fi.tuni.prog3.round8.jsoncountries;
 
 import com.google.gson.Gson;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class CountryData {
+
+    private class MyJObject {
+        private Root Root;
+    }
+    private class Root {
+        private Data data;
+    }
+    private class Data {
+        private List<Record> record;
+    }
+    private class Record {
+        private List<Field> field;
+    }
+    private class Field {
+        private String value;
+        private Attributes attributes;
+    }
+    private class Attributes {
+        private String name;
+        private String key;
+    }
 
     public static List<Country> readFromJsons(String areaFile, String populationFile, String gdpFile) {
         List<Country> countryList = new ArrayList<>();
@@ -23,23 +40,18 @@ public class CountryData {
         System.out.println("This is writeToJson, called.");
     }
 
-    private static List<String> readFromJson(String fileName) {
+    private static MyJObject readFromJson(String fileName) {
         List<String> outputList = new ArrayList<>();
         try {
             Gson gson = new Gson();
-            Reader reader = Files.newBufferedReader(Paths.get(fileName));
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
+            MyJObject jObj = gson.fromJson(br, MyJObject.class);
 
-            Map<?,?> map = gson.fromJson(reader, Map.class);
-
-            for (Map.Entry<?,?> entry : map.entrySet()) {
-                System.out.println(entry);
-            }
-            reader.close();
+            jObj.Root.data.record.stream()
         }
         catch (IOException e){
             e.printStackTrace();
         }
-        return outputList;
     }
 
 }
