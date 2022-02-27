@@ -20,7 +20,10 @@ public class Country implements Comparable<Country>{
 
     @Override
     public String toString() {
-        return String.format("%s%n  %f%n  %d%n  %f%n",
+        return String.format("%s%n  " +
+                        "Area: %.1f km2%n  " +
+                        "Population: %d%n  " +
+                        "GDP: %.1f (2015 USD)%n",
                 getName(), getArea(), getPopulation(), getGdp());
     }
 
