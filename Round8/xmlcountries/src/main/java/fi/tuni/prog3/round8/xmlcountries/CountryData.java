@@ -13,6 +13,16 @@ import java.util.List;
 
 public class CountryData {
 
+    public static void main(String[] args) throws IOException {
+        String areaFile = args[0];
+        String populationFile = args[1];
+        String gdpFile = args[2];
+        String outputFile = args[3];
+
+        List<Country> cData = readFromXmls(areaFile, populationFile, gdpFile);
+        writeToXml(cData, outputFile);
+    }
+
     public static List<Country> readFromXmls(
             String areaFile, String populationFile, String gdpFile) {
         List<Country> countryList = new ArrayList<Country>();

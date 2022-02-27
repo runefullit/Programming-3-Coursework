@@ -29,7 +29,7 @@
                 <executions>
                     <execution>
                         <configuration>
-                            <mainClass>CountriesXML</mainClass>
+                            <mainClass>fi.tuni.prog3.round8.xmlcountries.CountryData</mainClass>
                             <onejarVersion>0.97</onejarVersion>
                             <attachToBuild>true</attachToBuild>
                         </configuration>
