@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CountryData {
@@ -46,11 +47,12 @@ public class CountryData {
                 double cGdp = Double.parseDouble(gdpList.get(i));
                 countryList.add(new Country(cName, cArea, cPop, cGdp));
             }
+            Collections.sort(countryList);
 
         } catch (IOException | JDOMException e) {
             e.printStackTrace();
         }
-        return countryList.stream().sorted().toList(); // Sorted alphabetically
+        return countryList; // Sorted alphabetically
     }
 
     public static void writeToXml(List<Country> countries, String countryFile)
