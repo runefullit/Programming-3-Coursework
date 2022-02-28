@@ -1,6 +1,7 @@
 package fi.tuni.prog3.round8.jsoncountries;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -49,7 +50,12 @@ public class CountryData {
     }
 
     public static void writeToJson(List<Country> countries, String countryFile) {
-        System.out.println("This is writeToJson, called.");
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(countryFile)) {
+            gson.toJson(countries, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static List<String> readFromJson(String fileName, String attributeName) {
