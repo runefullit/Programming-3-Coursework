@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CountryData {
 
@@ -31,8 +33,18 @@ public class CountryData {
 
     public static List<Country> readFromJsons(String areaFile, String populationFile, String gdpFile) {
         List<Country> countryList = new ArrayList<>();
-        System.out.println(readFromJson(areaFile));
+        List<String> nameList = readFromJson(areaFile, "Country or Area");
+        List<String> areaList = readFromJson(areaFile, "Value");
+        List<String> popList = readFromJson(populationFile, "Value");
+        List<String> gdpList = readFromJson(gdpFile, "Value");
 
+        for (int i = 0; i < nameList.size(); i++) {
+            String cName = nameList.get(i);
+            double cArea = Double.parseDouble(areaList.get(i));
+            long cPop = Long.parseLong(popList.get(i));
+            double cGdp = Double.parseDouble(gdpList.get(i));
+            countryList.add(new Country(cName, cArea, cPop, cGdp));
+        }
         return countryList;
     }
 
@@ -40,18 +52,23 @@ public class CountryData {
         System.out.println("This is writeToJson, called.");
     }
 
-    private static MyJObject readFromJson(String fileName) {
+    private static List<String> readFromJson(String fileName, String attributeName) {
         List<String> outputList = new ArrayList<>();
         try {
             Gson gson = new Gson();
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             MyJObject jObj = gson.fromJson(br, MyJObject.class);
 
-            jObj.Root.data.record.stream()
+            // Producing a list of given attributes
+            outputList = jObj.Root.data.record.stream()
+                    .map(a -> a.field.stream()
+                            .filter(f -> f.attributes.name.equals(attributeName))
+                            .map(b -> b.value).collect(Collectors.joining()))
+                    .collect(Collectors.toList());
         }
         catch (IOException e){
             e.printStackTrace();
         }
+        return outputList;
     }
-
 }
