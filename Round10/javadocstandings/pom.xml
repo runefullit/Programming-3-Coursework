@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>Prog3-Exercises</groupId>
-    <artifactId>jdocstandings</artifactId>
+    <artifactId>javadocstandings</artifactId>
     <version>1.0</version>
 
     <properties>
