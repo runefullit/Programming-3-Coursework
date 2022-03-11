@@ -33,8 +33,8 @@ public final class ArrayNode extends Node implements Iterable<Node>{
     }
 
     /**
-     * Returns a fi.tuni.prog3.json.Node iterator that iterates the JSON nodes stored in this JSON array.
-     * @return a fi.tuni.prog3.json.Node iterator that iterates the JSON nodes stored in this JSON array.
+     * Returns a Node iterator that iterates the JSON nodes stored in this JSON array.
+     * @return a Node iterator that iterates the JSON nodes stored in this JSON array.
      */
     @Override
     public  Iterator<Node> iterator(){
