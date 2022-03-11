@@ -29,7 +29,7 @@ public abstract class Node {
     }
 
     /**
-     * Checks whether this node represents a JSON array.
+     * Checks whether this node represents a JSON value.
      * @return true if this node represent a JSON value, otherwise false.
      */
     public boolean isValue() {
