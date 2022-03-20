@@ -1,6 +1,6 @@
 package fi.tuni.prog3.junitorder;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.runner.RunWith;
@@ -14,12 +14,12 @@ import static org.mockito.Mockito.when;
 public class EntryTest {
 
     @Mock
-    Item item;
+    Order.Item item;
 
 
     @Test
     public void entryItemMatchesGivenParameter() {
-        Entry entry = new Entry(item, 1);
+        Order.Entry entry = new Order.Entry(item, 1);
         assertEquals(item, entry.getItem());
     }
 
@@ -28,7 +28,7 @@ public class EntryTest {
         String name = "name";
         when(item.getName()).thenReturn(name);
 
-        Entry entry = new Entry(item, 1);
+        Order.Entry entry = new Order.Entry(item, 1);
 
         assertEquals(name, entry.getItemName());
     }
@@ -39,33 +39,35 @@ public class EntryTest {
 
         when(item.getPrice()).thenReturn(price);
 
-        Entry entry = new Entry(item, 1);
+        Order.Entry entry = new Order.Entry(item, 1);
 
         assertEquals(price, entry.getUnitPrice());
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0,1,5,100,11231})
+    @ValueSource(ints = {1,5,100,11231})
     public void countMatchesGivenLegalParameter(int count) {
-        Entry entry = new Entry(item, count);
+        Order.Entry entry = new Order.Entry(item, count);
         assertEquals(count, entry.getCount());
     }
 
-    @Test
-    public void countThrowsIllegalArgumentExceptionWithNegativeCount() {
-        int count = -1;
-        assertThrows(IllegalArgumentException.class, () -> new Entry(item, count))
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 0})
+    public void countThrowsIllegalArgumentExceptionWithNonPositiveCount(int count) {
+        assertThrows(IllegalArgumentException.class, () -> new Order.Entry(item, count));
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {0,1,5,100,11231})
-    public void toStringProducesExpectedOutputs(int count) {
+    @Test
+    public void toStringProducesExpectedOutput() {
         String name = "name";
         double price = Math.sqrt(2);
+        int count = 17;
 
         when(item.toString()).thenReturn(String.format("Item(%s, %.2f)", name, price));
 
-        assertEquals(String.format("%d units of %s", count, item.toString()));
+        Order.Entry entry = new Order.Entry(new Order.Item(name, price), count);
+
+        assertEquals(String.format("%d units of %s", count, item.toString()), entry.toString());
     }
 
 }

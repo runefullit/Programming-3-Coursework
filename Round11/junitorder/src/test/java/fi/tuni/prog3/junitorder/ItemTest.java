@@ -2,62 +2,66 @@ package fi.tuni.prog3.junitorder;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class ItemTest {
 
     @Test
     public void itemThrowsIllegalArgumentExceptionIfNameNull() {
-        assertThrows(IllegalArgumentException.class, () -> new Item(null, 0));
+        assertThrows(IllegalArgumentException.class, () -> new Order.Item(null, 1));
     }
 
     @Test
     public void itemThrowsIllegalArgumentExceptionIfPriceNegative() {
-        assertThrows(IllegalArgumentException.class, ()-> new Item("name", -1));
+        assertThrows(IllegalArgumentException.class, ()-> new Order.Item("name", -1));
     }
 
     @Test
     public void itemNameMatchesGivenParameter() {
         String name = "name";
-        Item item = new Item(name, 0);
+        Order.Item item = new Order.Item(name, 0);
         assertEquals(name, item.getName());
     }
 
-    @Test
-    public void itemPriceMatchesGivenParameter() {
-        double price = 0;
-        Item item = new Item("name", price);
+    @ParameterizedTest
+    @ValueSource(doubles = {0, 1.41, 17.99, 99.30})
+    public void itemPriceMatchesGivenParameter(double price) {
+        Order.Item item = new Order.Item("name", price);
         assertEquals(price, item.getPrice());
     }
 
     @Test
     public void itemEqualsOtherDifferentPrices() {
         String name = "name";
-        Item other = new Item(name, 0);
-        Item self = new Item(name, 1);
+        Order.Item self = new Order.Item(name, 1);
+        Order.Item other = new Order.Item(name, 0);
         assertTrue(self.equals(other));
     }
 
     @Test
     public void itemEqualsOtherSamePrices() {
         String name = "name";
-        Item other = new Item(name, 0);
-        Item self = new Item(name, 0);
+        Order.Item self = new Order.Item(name, 0);
+        Order.Item other = new Order.Item(name, 0);
         assertTrue(self.equals(other));
     }
 
     @Test
-    public void itemInequalToOtherDifferentPrices() {
-        String name = "name";
-        Item other = new Item(name, 0);
-        Item self = new Item(name, 1);
+    public void itemUnequalToOtherDifferentPrices() {
+        String selfName = "selfName";
+        String otherName = "otherName";
+        Order.Item self = new Order.Item(otherName, 1);
+        Order.Item other = new Order.Item(selfName, 0);
         assertFalse(self.equals(other));
     }
 
     @Test
-    public void itemInequalToOtherSamePrices() {
-        String name = "name";
-        Item other = new Item(name, 0);
-        Item self = new Item(name, 0);
+    public void itemUnequalToOtherSamePrices() {
+        String selfName = "selfName";
+        String otherName = "otherName";
+        Order.Item self = new Order.Item(otherName, 0);
+        Order.Item other = new Order.Item(selfName, 0);
         assertFalse(self.equals(other));
     }
 
@@ -65,7 +69,7 @@ public class ItemTest {
     public void toStringProducesExpectedOutputs() {
         String name = "name";
         double price = Math.sqrt(2);
-        Item item = new Item(name, price);
+        Order.Item item = new Order.Item(name, price);
         assertEquals(String.format("Item(%s, %.2f)",name, price), item.toString());
     }
 }

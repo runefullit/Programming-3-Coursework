@@ -1,58 +1,41 @@
 package fi.tuni.prog3.junitorder;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.ArrayList;
 
 
-@RunWith(MockitoJUnitRunner.class)
 public class OrderTest {
 
-    @Mock
-    Item item;
-    @Mock
-    Item item2;
-    @Mock
-    Entry entry;
-
-    Order order;
+    private Order order;
+    private Order.Item item = new Order.Item("name", 1.0);
 
     @Test
-    public void addingNegativeItemCountThrowsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> order.addItem(item, -1));
+    public void addingNonPositiveItemCountThrowsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> order.addItems(item, -1));
     }
 
     @Test
     public void addingItemWithSameNameAndDifferentPriceThrowsIllegalStateException() {
-        String name = "name";
-        when(item.getName()).thenReturn(name);
-        when(item2.getName()).thenReturn(name);
-        when(item.getPrice()).thenReturn(1);
-        when(item2.getPrice()).thenReturn(Math.sqrt(2));
+        this.order.addItems(item, 1);
+        Order.Item item2 = new Order.Item("name", 1.5);
 
-        order.addItem(item, 1);
-
-        assertThrows(IllegalStateException.class, () -> order.addItem(item2, 1));
+        assertThrows(IllegalStateException.class, () -> order.addItems(item2, 1));
     }
 
     @Test
     public void addingItemReturnsTrue() {
-        assertTrue(order.addItem(item, 1));
+        assertTrue(order.addItems(item, 1));
     }
 
     @Test
     public void addingExistingItemIncrementsTheCounter() {
-        String name = "name";
-        when(item.getName()).thenReturn(name);
-        when(item.equals()).thenReturn(true);
-
-        // TODO: Finish this test.
-        assertTrue(false);
+        this.order.addItems(item, 2);
+        this.order.addItems(item,1);
+        assertEquals(3, order.getEntries().get(0).getCount());
     }
 
     @Test
@@ -61,16 +44,17 @@ public class OrderTest {
     }
 
     @Test
-    public void getEntrycountReturnsZeroForNoEntries() {
-        assertEquals(0, order.getEntries());
+    public void getEntryCountReturnsZeroForNoEntries() {
+        assertEquals(0, order.getEntryCount());
     }
 
     @Test
     public void getEntryCountReturnsExpectedCount() {
-        order.addItem(item, 1);
-        order.addItem(item, 2);
+        Order.Item item2 = new Order.Item("name2", 1.5);
+        order.addItems(item, 1);
+        order.addItems(item2, 2);
 
-        assertEquals(2, order.getEntryCount().size());
+        assertEquals(2, order.getEntryCount());
     }
 
     @Test
@@ -80,10 +64,10 @@ public class OrderTest {
 
     @Test
     public void getItemCountReturnsExpectedCount() {
-        order.addItem(item, 1);
-        order.addItem(item, 2);
+        order.addItems(item, 1);
+        order.addItems(item, 2);
 
-        assertEquals(3, order.getEntryCount().size());
+        assertEquals(3, order.getItemCount());
     }
 
     @Test
@@ -93,7 +77,9 @@ public class OrderTest {
 
     @Test
     public void getTotalPriceReturnsExpectedValues() {
-        when(entry.getUnitPrice())
+        order.addItems(item, 1);
+        order.addItems(item, 2);
+        assertEquals(3, order.getTotalPrice());
     }
 
     @BeforeEach

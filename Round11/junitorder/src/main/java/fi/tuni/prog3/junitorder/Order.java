@@ -1,17 +1,18 @@
 package fi.tuni.prog3.junitorder;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+
 
 public class Order {
 
-    public class Entry {
+    public static class Entry {
 
         private final Order.Item item;
-        private final int count;
+        private int count;
 
         /**
          * Constructs an entry with the given item and item unit count.
@@ -25,6 +26,14 @@ public class Order {
             }
             this.item = item;
             this.count = count;
+        }
+
+        /**
+         * A convenience function that returns the name of this entry's item.
+         * @return the name of the item.
+         */
+        public String getItemName() {
+            return this.item.getName();
         }
 
         /**
@@ -61,9 +70,13 @@ public class Order {
             return String.format("%d units of %s", this.count, this.item.toString());
         }
 
+        private void addCount(int count) {
+            this.count += count;
+        }
+
     }
 
-    public class Item {
+    public static class Item {
 
         private final String name;
         private final double price;
@@ -105,7 +118,7 @@ public class Order {
          */
         @Override
         public String toString() {
-            return String.format("Item(%s, %.2f");
+            return String.format("Item(%s, %.2f)", this.name, this.price);
         }
 
         /**
@@ -141,38 +154,128 @@ public class Order {
      * @throws IllegalStateException if an existing entry has the same item name but a different price than the added item.
      */
     public boolean addItems(Order.Item item, int count) throws IllegalArgumentException, IllegalStateException {
-        // TODO: Add error cases.
-        this.orderList.add(new Entry(item, count));
+        Optional<Entry> entry = getEntryByName(item.getName());
+        if (entry.isPresent()) {
+            if (entry.get().getUnitPrice() != item.getPrice()) {
+                throw new IllegalStateException();
+            }
+            entry.get().addCount(count);
+        } else {
+            this.orderList.add(new Order.Entry(item, count));
+        }
         return true;
     }
 
-    public boolean AddItems(String name, int count) throws IllegalArgumentException, IllegalStateException {
-        throw new NotImplementedException();
+    /**
+     * <p>Adds count units of an item to the order. </p>
+     *
+     * <p>Note: The order is expected to already contain an entry with the specified item name, and this
+     * function will increment that entry's item count by count.</p>
+     *
+     * @param name the name of the added item.
+     * @param count the item unit count to add.
+     * @return true if the items were added without errors.
+     * @throws IllegalArgumentException if the item unit count to add is not positive.
+     * @throws IllegalStateException if the order does not contain an entry with the specified item name.
+     */
+    public boolean addItems(String name, int count) throws IllegalArgumentException, IllegalStateException {
+        if (count <= 0) {
+            throw new IllegalArgumentException();
+        }
+        for (Order.Entry entry : orderList) {
+            if (entry.getItem().getName().equals(name)) {
+                entry.addCount(count);
+                return true;
+            }
+        }
+        throw new IllegalStateException();
     }
 
+    /**
+     * <p>Returns the order entries in their original adding order. </p>
+     *
+     * <p>Note: the returned list is a copy, so modifying it will not affect the internal state of the order.</p>
+     *
+     * @return the current entries of the order.
+     */
     public List<Entry> getEntries() {
         return this.orderList;
     }
 
+    /**
+     * Returns the total number of item entries in this order.
+     * @return the total number of item entries in this order.
+     */
     public int getEntryCount() {
         return this.orderList.size();
     }
 
+    /**
+     * Returns the total number of entries in this order (= sum of all entries' counts).
+     * @return the total number of entries in this order.
+     */
     public int getItemCount() {
-        throw new NotImplementedException();
+        int sum = 0;
+        for (Order.Entry entry : orderList) {
+            sum += entry.getCount();
+        }
+        return sum;
     }
 
+    /**
+     * Returns the total price of the order.
+     * @return the total price of the order.
+     */
     public double getTotalPrice() {
-        throw new NotImplementedException();
+        int sum = 0;
+        for (Order.Entry entry : orderList) {
+            sum += entry.getUnitPrice() * entry.getCount();
+        }
+        return sum;
     }
 
+    /**
+     * Tells whether the order is empty.
+     * @return true if the order is empty, otherwise false.
+     */
     public boolean isEmpty() {
         return this.orderList.size() == 0;
     }
 
+    /**
+     * <p>Removes count units of an item from the order. </p>
+     *
+     * <p>Note: If the order already contains an entry for the specified item (based on having the same item name),
+     * the existing entry's item count is decremented by count. If the item count becomes zero, the item entry is
+     * removed from the order.</p>
+     *
+     * @param name the name of the removed item.
+     * @param count the item unit count to remove.
+     * @return true if the items were removed without errors.
+     * @throws IllegalArgumentException if the item unit count to remove is not positive or is larger than the
+     * corresponding existing entry's item unit
+     * @throws NoSuchElementException if the order does not contain an entry with the specified item name.
+     */
     public boolean removeItems(String name, int count) throws IllegalArgumentException, NoSuchElementException {
-        throw new NotImplementedException();
+        Optional<Entry> entry = getEntryByName(name);
+        if (entry.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        if (entry.get().getCount() < count || count <= 0) {
+            throw new IllegalArgumentException();
+        }
+        if (entry.get().getCount() == count) {
+            orderList.remove(entry.get());
+        } else {
+            entry.get().count -= count;
+        }
+        return true;
     }
 
+    private Optional<Entry> getEntryByName(String name) {
+        return this.orderList.stream()
+                .filter(entry -> entry.getItemName().equals(name))
+                .findFirst();
+    }
 
 }
