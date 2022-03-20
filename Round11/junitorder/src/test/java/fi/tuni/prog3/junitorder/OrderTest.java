@@ -82,6 +82,11 @@ public class OrderTest {
         assertEquals(3, order.getTotalPrice());
     }
 
+    @Test
+    public void isEmptyReturnsTrueWithNoEntries() {
+        assertTrue(order.isEmpty());
+    }
+
     @BeforeEach
     public void setup() {
         order = new Order();
