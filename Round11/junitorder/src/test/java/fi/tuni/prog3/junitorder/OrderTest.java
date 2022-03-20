@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 
 public class OrderTest {
@@ -36,6 +37,25 @@ public class OrderTest {
         this.order.addItems(item, 2);
         this.order.addItems(item,1);
         assertEquals(3, order.getEntries().get(0).getCount());
+    }
+
+    @Test
+    public void addingItemsWithStringAndNegativeCountThrowsIllegalArgumentException() {
+        order.addItems(item, 1);
+        assertThrows(IllegalArgumentException.class, () -> order.addItems("name", -1));
+    }
+
+    @Test
+    public void addingNewItemsWithStringThrowsNoSuchElementException() {
+        assertThrows(NoSuchElementException.class, () -> order.addItems("name", 1));
+    }
+
+    @Test
+    public void addingItemsWithStringIncrementsCount() {
+        order.addItems(item, 2);
+        assertEquals(2, order.getItemCount());
+        order.addItems("name", 1);
+        assertEquals(3, order.getItemCount());
     }
 
     @Test

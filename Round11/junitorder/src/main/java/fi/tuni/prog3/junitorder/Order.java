@@ -178,7 +178,7 @@ public class Order {
      * @throws IllegalArgumentException if the item unit count to add is not positive.
      * @throws IllegalStateException if the order does not contain an entry with the specified item name.
      */
-    public boolean addItems(String name, int count) throws IllegalArgumentException, IllegalStateException {
+    public boolean addItems(String name, int count) throws IllegalArgumentException, NoSuchElementException {
         if (count <= 0) {
             throw new IllegalArgumentException();
         }
@@ -188,7 +188,7 @@ public class Order {
                 return true;
             }
         }
-        throw new IllegalStateException();
+        throw new NoSuchElementException();
     }
 
     /**
@@ -199,7 +199,7 @@ public class Order {
      * @return the current entries of the order.
      */
     public List<Entry> getEntries() {
-        return this.orderList;
+        return List.copyOf(this.orderList);
     }
 
     /**
