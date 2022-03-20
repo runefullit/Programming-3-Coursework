@@ -107,6 +107,37 @@ public class OrderTest {
         assertTrue(order.isEmpty());
     }
 
+    @Test
+    public void removeItemsThrowsNoSuchElementExceptionOnEmptyList() {
+        assertThrows(NoSuchElementException.class, () -> order.removeItems("name", 1));
+    }
+
+    @Test
+    public void removeItemsThrowsIllegalArgumentExceptionWhenCountExceedsItemCount() {
+        order.addItems(item, 2);
+        assertThrows(IllegalArgumentException.class, () -> order.removeItems("name", 3));
+    }
+
+    @Test
+    public void removeItemsThrowsIllegalArgumentExceptionWhenCountNegative() {
+        order.addItems(item, 2);
+        assertThrows(IllegalArgumentException.class, () -> order.removeItems("name", -1));
+    }
+
+    @Test
+    public void removeItemsRemovesGivenElement() {
+        order.addItems(item, 2);
+        order.removeItems("name", 2);
+        assertEquals(0, order.getItemCount());
+    }
+
+    @Test
+    public void removeItemsDecreasesItemCount() {
+        order.addItems(item, 2);
+        order.removeItems("name", 1);
+        assertEquals(1, order.getItemCount());
+    }
+
     @BeforeEach
     public void setup() {
         order = new Order();

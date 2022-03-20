@@ -272,6 +272,11 @@ public class Order {
         return true;
     }
 
+    /**
+     * Helperfunction for entry management, gets a reference of entry with given name. (Empty if doesn't exist)
+     * @param name The searched entry's name
+     * @return entry with the given name, Empty if not found.
+     */
     private Optional<Entry> getEntryByName(String name) {
         return this.orderList.stream()
                 .filter(entry -> entry.getItemName().equals(name))
