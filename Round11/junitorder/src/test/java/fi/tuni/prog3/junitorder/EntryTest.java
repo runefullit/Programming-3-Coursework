@@ -16,9 +16,9 @@ public class EntryTest {
         double price = Math.sqrt(2);
         this.item = new Order.Item(name, price);
 
-        Order.Entry entry = new Order.Entry(item, 1);
+        Order.Entry entry = new Order.Entry(this.item, 1);
 
-        assertEquals(item, entry.getItem());
+        assertEquals(this.item, entry.getItem());
     }
 
     @Test
@@ -38,7 +38,7 @@ public class EntryTest {
         double price = Math.sqrt(2);
         this.item = new Order.Item(name, price);
 
-        Order.Entry entry = new Order.Entry(this.item, 1);
+        Order.Entry entry = new Order.Entry(this.item, 2);
 
         assertEquals(price, entry.getUnitPrice());
     }
