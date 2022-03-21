@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 public class Order {
@@ -202,7 +203,7 @@ public class Order {
      * @return the current entries of the order.
      */
     public List<Entry> getEntries() {
-        return List.copyOf(this.orderList);
+        return new ArrayList<>(this.orderList);
     }
 
     /**

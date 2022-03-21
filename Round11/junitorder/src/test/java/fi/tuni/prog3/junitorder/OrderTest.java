@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -88,6 +89,16 @@ public class OrderTest {
 
         assertEquals(this.item, this.order.getEntries().get(0).getItem());
         assertEquals(item2, this.order.getEntries().get(1).getItem());
+    }
+
+    @Test
+    public void getEntriesReturnsCopy() {
+        this.order.addItems(this.item, 1);
+        List<Order.Entry> orderCopy = this.order.getEntries();
+        Order.Item item2 = new Order.Item("name2", 2.3);
+        orderCopy.add(new Order.Entry(item2, 1));
+        assertEquals(2, orderCopy.size());
+        assertEquals(1, this.order.getEntries().size());
     }
 
     @Test
