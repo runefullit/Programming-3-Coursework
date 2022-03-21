@@ -137,12 +137,13 @@ public class OrderTest {
         assertEquals(0, this.order.getItemCount());
     }
 
-    @Test
-    public void getItemCountReturnsExpectedCount() {
+    @ParameterizedTest
+    @ValueSource(ints = {1,99, 1231551})
+    public void getItemCountReturnsExpectedCount(int count) {
         this.order.addItems(this.item, 1);
-        this.order.addItems(this.item, 2);
+        this.order.addItems(this.item, count);
 
-        assertEquals(3, order.getItemCount());
+        assertEquals(count + 1, order.getItemCount());
     }
 
     // Testing getTotalPrice()
