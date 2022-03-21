@@ -186,6 +186,12 @@ public class OrderTest {
     }
 
     @Test
+    public void removeItemsThrowsNoSuchElementExceptionWhenElemWithNameNotPresent() {
+        this.order.addItems(this.item, 2);
+        assertThrows(NoSuchElementException.class, () -> this.order.removeItems("anotherName", 2));
+    }
+
+    @Test
     public void removeItemsThrowsIllegalArgumentExceptionWhenCountExceedsItemCount() {
         this.order.addItems(this.item, 2);
         assertThrows(IllegalArgumentException.class, () -> this.order.removeItems("name", 5));
