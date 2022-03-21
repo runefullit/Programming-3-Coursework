@@ -154,6 +154,9 @@ public class Order {
      * @throws IllegalStateException if an existing entry has the same item name but a different price than the added item.
      */
     public boolean addItems(Order.Item item, int count) throws IllegalArgumentException, IllegalStateException {
+        if (count <= 0) {
+            throw new IllegalArgumentException();
+        }
         Optional<Entry> entry = getEntryByName(item.getName());
         if (entry.isPresent()) {
             if (entry.get().getUnitPrice() != item.getPrice()) {

@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -14,9 +16,10 @@ public class OrderTest {
     private Order order;
     private Order.Item item = new Order.Item("name", 1.7);
 
-    @Test
-    public void addingNonPositiveItemCountThrowsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> this.order.addItems(this.item, -1));
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 0})
+    public void addingNonPositiveItemCountThrowsIllegalArgumentException(int count) {
+        assertThrows(IllegalArgumentException.class, () -> this.order.addItems(this.item, count));
     }
 
     @Test
@@ -25,6 +28,13 @@ public class OrderTest {
         Order.Item item2 = new Order.Item("name", 1.5);
 
         assertThrows(IllegalStateException.class, () -> this.order.addItems(item2, 1));
+    }
+
+    @Test
+    public void addingItemWithSameNameAndNegativeCountThrowsIllegalArgumentException() {
+        this.order.addItems(this.item, 2);
+
+        assertThrows(IllegalArgumentException.class, () -> this.order.addItems(this.item, -1));
     }
 
     @Test
