@@ -227,7 +227,7 @@ public class Order {
      * @return the total price of the order.
      */
     public double getTotalPrice() {
-        int sum = 0;
+        double sum = 0;
         for (Order.Entry entry : orderList) {
             sum += entry.getUnitPrice() * entry.getCount();
         }

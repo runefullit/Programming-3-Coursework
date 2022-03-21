@@ -12,80 +12,97 @@ import java.util.NoSuchElementException;
 public class OrderTest {
 
     private Order order;
-    private Order.Item item = new Order.Item("name", 1.0);
+    private Order.Item item = new Order.Item("name", 1.7);
 
     @Test
     public void addingNonPositiveItemCountThrowsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> order.addItems(item, -1));
+        assertThrows(IllegalArgumentException.class, () -> this.order.addItems(this.item, -1));
     }
 
     @Test
     public void addingItemWithSameNameAndDifferentPriceThrowsIllegalStateException() {
-        this.order.addItems(item, 1);
+        this.order.addItems(this.item, 1);
         Order.Item item2 = new Order.Item("name", 1.5);
 
-        assertThrows(IllegalStateException.class, () -> order.addItems(item2, 1));
+        assertThrows(IllegalStateException.class, () -> this.order.addItems(item2, 1));
     }
 
     @Test
     public void addingItemReturnsTrue() {
-        assertTrue(order.addItems(item, 1));
+        assertTrue(this.order.addItems(this.item, 1));
     }
 
     @Test
-    public void addingExistingItemIncrementsTheCounter() {
-        this.order.addItems(item, 2);
-        this.order.addItems(item,1);
-        assertEquals(3, order.getEntries().get(0).getCount());
+    public void addingExistingItemIncrementsCount() {
+        this.order.addItems(this.item, 2);
+        this.order.addItems(this.item,1);
+        assertEquals(3, this.order.getEntries().get(0).getCount());
     }
 
     @Test
     public void addingItemsWithStringAndNegativeCountThrowsIllegalArgumentException() {
         order.addItems(item, 1);
-        assertThrows(IllegalArgumentException.class, () -> order.addItems("name", -1));
+        assertThrows(IllegalArgumentException.class, () -> this.order.addItems("name", -1));
     }
 
     @Test
     public void addingNewItemsWithStringThrowsNoSuchElementException() {
-        assertThrows(NoSuchElementException.class, () -> order.addItems("name", 1));
+        assertThrows(NoSuchElementException.class, () -> this.order.addItems("name", 1));
+    }
+
+    @Test
+    public void addingItemsWithStringReturnsTrue() {
+        this.order.addItems(this.item, 1);
+
+        assertTrue(this.order.addItems("name", 1));
     }
 
     @Test
     public void addingItemsWithStringIncrementsCount() {
-        order.addItems(item, 2);
-        assertEquals(2, order.getItemCount());
-        order.addItems("name", 1);
-        assertEquals(3, order.getItemCount());
+        this.order.addItems(this.item, 2);
+        assertEquals(2, this.order.getItemCount());
+        this.order.addItems("name", 1);
+        assertEquals(3, this.order.getItemCount());
     }
 
     @Test
     public void getEntriesReturnsEmptyListIfNoEntries() {
-        assertEquals(new ArrayList<Order.Entry>(), order.getEntries());
+        assertEquals(new ArrayList<Order.Entry>(), this.order.getEntries());
+    }
+
+    @Test
+    public void getEntriesReturnsExpectedResult() {
+        this.order.addItems(this.item, 1);
+        Order.Item item2 = new Order.Item("name2", 1.0);
+        this.order.addItems(item2, 1);
+
+        assertEquals(this.item, this.order.getEntries().get(0).getItem());
+        assertEquals(item2, this.order.getEntries().get(1).getItem());
     }
 
     @Test
     public void getEntryCountReturnsZeroForNoEntries() {
-        assertEquals(0, order.getEntryCount());
+        assertEquals(0, this.order.getEntryCount());
     }
 
     @Test
     public void getEntryCountReturnsExpectedCount() {
         Order.Item item2 = new Order.Item("name2", 1.5);
-        order.addItems(item, 1);
-        order.addItems(item2, 2);
+        this.order.addItems(item, 1);
+        this.order.addItems(item2, 2);
 
-        assertEquals(2, order.getEntryCount());
+        assertEquals(2, this.order.getEntryCount());
     }
 
     @Test
     public void getItemCountReturnZeroForNoEntries() {
-        assertEquals(0, order.getItemCount());
+        assertEquals(0, this.order.getItemCount());
     }
 
     @Test
     public void getItemCountReturnsExpectedCount() {
-        order.addItems(item, 1);
-        order.addItems(item, 2);
+        this.order.addItems(this.item, 1);
+        this.order.addItems(this.item, 2);
 
         assertEquals(3, order.getItemCount());
     }
@@ -97,49 +114,55 @@ public class OrderTest {
 
     @Test
     public void getTotalPriceReturnsExpectedValues() {
-        order.addItems(item, 1);
-        order.addItems(item, 2);
-        assertEquals(3, order.getTotalPrice());
+        this.order.addItems(this.item, 1);
+        this.order.addItems(this.item, 2);
+        assertEquals(5.1, this.order.getTotalPrice());
     }
 
     @Test
     public void isEmptyReturnsTrueWithNoEntries() {
-        assertTrue(order.isEmpty());
+        assertTrue(this.order.isEmpty());
+    }
+
+    @Test
+    public void isEmptyReturnsFalseWithEntries() {
+        this.order.addItems(this.item, 1);
+        assertFalse(this.order.isEmpty());
     }
 
     @Test
     public void removeItemsThrowsNoSuchElementExceptionOnEmptyList() {
-        assertThrows(NoSuchElementException.class, () -> order.removeItems("name", 1));
+        assertThrows(NoSuchElementException.class, () -> this.order.removeItems("name", 1));
     }
 
     @Test
     public void removeItemsThrowsIllegalArgumentExceptionWhenCountExceedsItemCount() {
-        order.addItems(item, 2);
-        assertThrows(IllegalArgumentException.class, () -> order.removeItems("name", 3));
+        this.order.addItems(this.item, 2);
+        assertThrows(IllegalArgumentException.class, () -> this.order.removeItems("name", 3));
     }
 
     @Test
     public void removeItemsThrowsIllegalArgumentExceptionWhenCountNegative() {
-        order.addItems(item, 2);
-        assertThrows(IllegalArgumentException.class, () -> order.removeItems("name", -1));
+        this.order.addItems(this.item, 2);
+        assertThrows(IllegalArgumentException.class, () -> this.order.removeItems("name", -1));
     }
 
     @Test
     public void removeItemsRemovesGivenElement() {
-        order.addItems(item, 2);
-        order.removeItems("name", 2);
-        assertEquals(0, order.getItemCount());
+        this.order.addItems(this.item, 2);
+        this.order.removeItems("name", 2);
+        assertEquals(0, this.order.getItemCount());
     }
 
     @Test
     public void removeItemsDecreasesItemCount() {
-        order.addItems(item, 2);
-        order.removeItems("name", 1);
-        assertEquals(1, order.getItemCount());
+        this.order.addItems(this.item, 2);
+        this.order.removeItems("name", 1);
+        assertEquals(1, this.order.getItemCount());
     }
 
     @BeforeEach
     public void setup() {
-        order = new Order();
+        this.order = new Order();
     }
 }

@@ -17,7 +17,7 @@ public class EntryTest {
         this.item = new Order.Item(name, price);
 
         Order.Entry entry = new Order.Entry(item, 1);
-        
+
         assertEquals(item, entry.getItem());
     }
 
