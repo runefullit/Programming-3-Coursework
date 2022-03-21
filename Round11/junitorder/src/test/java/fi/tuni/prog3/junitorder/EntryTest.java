@@ -57,7 +57,7 @@ public class EntryTest {
 
     @ParameterizedTest
     @ValueSource(ints = {-1, 0})
-    public void countThrowsIllegalArgumentExceptionWithNonPositiveCount(int count) {
+    public void constructionThrowsIllegalArgumentExceptionWithNonPositiveCount(int count) {
         String name = "name";
         double price = Math.sqrt(2);
         this.item = new Order.Item(name, price);

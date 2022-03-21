@@ -26,7 +26,7 @@ public class OrderTest {
     @Test
     public void addingItemWithSameNameAndDifferentPriceThrowsIllegalStateException() {
         this.order.addItems(this.item, 1);
-        Order.Item item2 = new Order.Item("name", 1.5);
+        Order.Item item2 = new Order.Item(this.item.getName(), this.item.getPrice() + 0.2);
 
         assertThrows(IllegalStateException.class, () -> this.order.addItems(item2, 1));
     }
@@ -91,6 +91,16 @@ public class OrderTest {
 
         assertEquals(this.item, this.order.getEntries().get(0).getItem());
         assertEquals(item2, this.order.getEntries().get(1).getItem());
+    }
+
+    @Test
+    public void getEntriesIsNotSorted() {
+        Order.Item item2 = new Order.Item("name2", 1.0);
+        this.order.addItems(item2, 1);
+        this.order.addItems(this.item, 1);
+
+        assertEquals(item2, this.order.getEntries().get(0).getItem());
+        assertEquals(this.item, this.order.getEntries().get(1).getItem());
     }
 
     @Test
