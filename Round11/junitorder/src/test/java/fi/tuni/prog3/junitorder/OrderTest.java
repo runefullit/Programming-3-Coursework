@@ -17,6 +17,7 @@ public class OrderTest {
     private Order order;
     private Order.Item item = new Order.Item("name", 1.7);
 
+    // Testing addItems(Item.Order, int)
     @ParameterizedTest
     @ValueSource(ints = {-1, 0})
     public void addingNonPositiveItemCountThrowsIllegalArgumentException(int count) {
@@ -51,6 +52,7 @@ public class OrderTest {
         assertEquals(3, this.order.getEntries().get(0).getCount());
     }
 
+    // Testing addItems(String, int)
     @ParameterizedTest
     @ValueSource(ints = {-1, 0})
     public void addingItemsWithStringAndNonPositiveCountThrowsIllegalArgumentException(int count) {
@@ -78,6 +80,7 @@ public class OrderTest {
         assertEquals(3, this.order.getItemCount());
     }
 
+    // Testing getEntries()
     @Test
     public void getEntriesReturnsEmptyListIfNoEntries() {
         assertEquals(new ArrayList<Order.Entry>(), this.order.getEntries());
@@ -113,6 +116,7 @@ public class OrderTest {
         assertEquals(1, this.order.getEntries().size());
     }
 
+    // Testing getEntryCount()
     @Test
     public void getEntryCountReturnsZeroForNoEntries() {
         assertEquals(0, this.order.getEntryCount());
@@ -127,6 +131,7 @@ public class OrderTest {
         assertEquals(2, this.order.getEntryCount());
     }
 
+    // Testing getItemCount()
     @Test
     public void getItemCountReturnZeroForNoEntries() {
         assertEquals(0, this.order.getItemCount());
@@ -140,6 +145,7 @@ public class OrderTest {
         assertEquals(3, order.getItemCount());
     }
 
+    // Testing getTotalPrice()
     @Test
     public void getTotalPriceReturnsZeroForNoEntries() {
         assertEquals(0, order.getTotalPrice());
@@ -152,6 +158,7 @@ public class OrderTest {
         assertEquals(5.1, this.order.getTotalPrice());
     }
 
+    // Testing isEmpty()
     @Test
     public void isEmptyReturnsTrueWithNoEntries() {
         assertTrue(this.order.isEmpty());
@@ -163,6 +170,7 @@ public class OrderTest {
         assertFalse(this.order.isEmpty());
     }
 
+    // Testing removeItems(String, int)
     @Test
     public void removeItemsThrowsNoSuchElementExceptionOnEmptyList() {
         assertThrows(NoSuchElementException.class, () -> this.order.removeItems("name", 1));
@@ -183,9 +191,12 @@ public class OrderTest {
 
     @Test
     public void removeItemsRemovesGivenElement() {
+        Order.Item item2 = new Order.Item("name2", 1.3);
+        this.order.addItems(item2, 3);
         this.order.addItems(this.item, 2);
         this.order.removeItems("name", 2);
-        assertEquals(0, this.order.getItemCount());
+        assertEquals(3, this.order.getItemCount());
+        assertEquals(1, this.order.getEntryCount());
     }
 
     @Test
