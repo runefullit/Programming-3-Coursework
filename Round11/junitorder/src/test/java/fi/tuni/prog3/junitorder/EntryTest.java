@@ -38,10 +38,10 @@ public class EntryTest {
         assertEquals(name, entry.getItemName());
     }
 
-    @Test
-    public void entryItemPriceIsExpectedItemPrice() {
+    @ParameterizedTest
+    @ValueSource(doubles = {1.231, 99123.12})
+    public void entryItemPriceIsExpectedItemPrice(double price) {
         String name = "name";
-        double price = Math.sqrt(2);
         this.item = new Order.Item(name, price);
 
         Order.Entry entry = new Order.Entry(this.item, 2);
