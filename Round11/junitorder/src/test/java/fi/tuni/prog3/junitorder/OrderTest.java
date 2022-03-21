@@ -31,11 +31,12 @@ public class OrderTest {
         assertThrows(IllegalStateException.class, () -> this.order.addItems(item2, 1));
     }
 
-    @Test
-    public void addingItemWithSameNameAndNegativeCountThrowsIllegalArgumentException() {
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 0})
+    public void addingItemWithSameNameAndNonPositiveCountThrowsIllegalArgumentException(int count) {
         this.order.addItems(this.item, 2);
 
-        assertThrows(IllegalArgumentException.class, () -> this.order.addItems(this.item, -1));
+        assertThrows(IllegalArgumentException.class, () -> this.order.addItems(this.item, count));
     }
 
     @Test
@@ -50,10 +51,11 @@ public class OrderTest {
         assertEquals(3, this.order.getEntries().get(0).getCount());
     }
 
-    @Test
-    public void addingItemsWithStringAndNegativeCountThrowsIllegalArgumentException() {
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 0})
+    public void addingItemsWithStringAndNonPositiveCountThrowsIllegalArgumentException(int count) {
         order.addItems(item, 1);
-        assertThrows(IllegalArgumentException.class, () -> this.order.addItems("name", -1));
+        assertThrows(IllegalArgumentException.class, () -> this.order.addItems("name", count));
     }
 
     @Test
@@ -162,10 +164,11 @@ public class OrderTest {
         assertThrows(IllegalArgumentException.class, () -> this.order.removeItems("name", 3));
     }
 
-    @Test
-    public void removeItemsThrowsIllegalArgumentExceptionWhenCountNegative() {
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 0})
+    public void removeItemsThrowsIllegalArgumentExceptionWhenCountNonPositive(int count) {
         this.order.addItems(this.item, 2);
-        assertThrows(IllegalArgumentException.class, () -> this.order.removeItems("name", -1));
+        assertThrows(IllegalArgumentException.class, () -> this.order.removeItems("name", count));
     }
 
     @Test
