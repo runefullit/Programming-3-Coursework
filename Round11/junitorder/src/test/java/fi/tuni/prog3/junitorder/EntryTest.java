@@ -11,6 +11,12 @@ public class EntryTest {
     private Order.Item item;
 
     @Test
+    public void entryMayBeInitializedWithNullItem() {
+        Order.Entry entry = new Order.Entry(null, 2);
+        assertNull(entry.getItem());
+    }
+
+    @Test
     public void entryItemMatchesGivenParameter() {
         String name = "name";
         double price = Math.sqrt(2);
@@ -57,7 +63,7 @@ public class EntryTest {
 
     @ParameterizedTest
     @ValueSource(ints = {-1, 0})
-    public void constructionThrowsIllegalArgumentExceptionWithNonPositiveCount(int count) {
+    public void constructorThrowsIllegalArgumentExceptionWithNonPositiveCount(int count) {
         String name = "name";
         double price = Math.sqrt(2);
         this.item = new Order.Item(name, price);
