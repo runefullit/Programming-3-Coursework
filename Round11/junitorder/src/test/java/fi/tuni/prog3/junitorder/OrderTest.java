@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 public class OrderTest {
 
     private Order order;
-    private Order.Item item = new Order.Item("name", 1.7);
+    private final Order.Item item = new Order.Item("name", 1.7);
 
     // Testing addItems(Item.Order, int)
     @ParameterizedTest
@@ -159,6 +159,14 @@ public class OrderTest {
         assertEquals(5.1, this.order.getTotalPrice());
     }
 
+    @Test
+    public void getTotalPriceFreeUnitsDoNotIncreaseTotal() {
+        this.order.addItems(this.item, 2);
+        Order.Item item2 = new Order.Item("name2", 0);
+        this.order.addItems(item2, 3);
+        assertEquals(3.4, this.order.getTotalPrice());
+    }
+
     // Testing isEmpty()
     @Test
     public void isEmptyReturnsTrueWithNoEntries() {
@@ -180,7 +188,7 @@ public class OrderTest {
     @Test
     public void removeItemsThrowsIllegalArgumentExceptionWhenCountExceedsItemCount() {
         this.order.addItems(this.item, 2);
-        assertThrows(IllegalArgumentException.class, () -> this.order.removeItems("name", 3));
+        assertThrows(IllegalArgumentException.class, () -> this.order.removeItems("name", 5));
     }
 
     @ParameterizedTest
