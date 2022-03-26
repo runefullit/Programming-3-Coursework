@@ -1,0 +1,14 @@
+.root {
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-background-color: #212121;
+}
+
+.label {
+    -fx-text-fill: white;
+}
+
+#fieldRes {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-text-fill: black;
+}

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import java.net.URL?>
+<?import javafx.scene.layout.HBox?>
+<GridPane alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="fi.tuni.prog3.calc.CalculatorController" hgap="5" vgap="5">
+    <columnConstraints>
+        <ColumnConstraints hgrow="NEVER"/>
+        <ColumnConstraints hgrow="NEVER"/>
+        <ColumnConstraints hgrow="ALWAYS"/>
+        <ColumnConstraints hgrow="ALWAYS"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints vgrow="NEVER"/>
+        <RowConstraints vgrow="NEVER"/>
+        <RowConstraints vgrow="ALWAYS"/>
+        <RowConstraints vgrow="NEVER"/>
+    </rowConstraints>
+
+    <Label fx:id="labelOp1" text="First operand:"
+           GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+    <TextField fx:id="fieldOp1" maxWidth="Infinity"
+               GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+
+    <Label fx:id="labelOp2" text="Second operand:"
+           GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+    <TextField fx:id="fieldOp2" maxWidth="Infinity"
+               GridPane.rowIndex="1" GridPane.columnIndex="2" GridPane.columnSpan="2"/>
+
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.columnSpan="4" maxWidth="Infinity" spacing="5">
+        <Button fx:id="btnAdd" text="Add" onAction="#addClicked" maxWidth="Infinity" maxHeight="Infinity" HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnSub" text="Subtract" onAction="#subtractClicked" maxWidth="Infinity" maxHeight="Infinity" HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnMul" text="Multiply" onAction="#multiplyClicked" maxWidth="Infinity" maxHeight="Infinity" HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnDiv" text="Divide" onAction="#divideClicked" maxWidth="Infinity" maxHeight="Infinity" HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+
+    <Label fx:id="labelRes" text="Result:" maxWidth="Infinity"
+           GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+    <Label fx:id="fieldRes" id="fieldRes" maxWidth="Infinity"
+           GridPane.rowIndex="3" GridPane.columnIndex="2" GridPane.columnSpan="2"/>
+    <stylesheets>
+        <URL value="@CalculatorCss.css"/>
+    </stylesheets>
+</GridPane>
