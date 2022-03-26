@@ -6,13 +6,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class Wordle extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws IOException, URISyntaxException {
         FXMLLoader fxmlLoader = new FXMLLoader(Wordle.class.getResource("wordle-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        stage.setTitle("Wordle");
         stage.setScene(scene);
         stage.show();
     }

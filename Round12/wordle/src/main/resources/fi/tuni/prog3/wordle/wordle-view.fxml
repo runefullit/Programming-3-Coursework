@@ -13,7 +13,7 @@
     </padding>
 
     <HBox>
-        <Button text="Start new game" onAction="#onStartButtonClick"/>
-        <Label fx:id="welcomeText"/>
+        <Button fx:id="newGameBtn" text="Start new game" onAction="#onStartButtonClick"/>
+        <Label fx:id="infoBox"/>
     </HBox>
 </VBox>
