@@ -3,10 +3,8 @@ package fi.tuni.prog3.wordle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Region;
 
 public class WordleController {
-    protected Region region;
     @FXML
     private Button newGameBtn;
     @FXML
@@ -14,9 +12,5 @@ public class WordleController {
 
     @FXML
     public void onStartButtonClick() {
-    }
-
-    private void generateGridForWord(String word) {
-
     }
 }
