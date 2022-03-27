@@ -1,18 +1,17 @@
 package fi.tuni.prog3.wordle;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
+
 
 public class Wordle extends Application {
     @Override
-    public void start(Stage stage) throws IOException, URISyntaxException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Wordle.class.getResource("wordle-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+    public void start(Stage stage) {
+        ViewBuilder sManager = new ViewBuilder();
+        Scene scene = new Scene(sManager, 320, 120);
         stage.setTitle("Wordle");
         stage.setScene(scene);
         stage.show();

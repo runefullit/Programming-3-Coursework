@@ -1,7 +1,14 @@
 package fi.tuni.prog3.wordle;
 
 import java.io.IOException;
-import java.util.Objects;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -9,10 +16,14 @@ import java.util.Random;
  */
 public class WordleData {
 
-    private final String[] words = Objects.requireNonNull(Wordle.class.getResource("words.txt")).toString().split("\n");
+    private final List<String> words;
     private final Random rand = new Random();
 
-    public WordleData() throws IOException {
+    public WordleData() throws URISyntaxException, IOException {
+        URL url = WordleData.class.getResource("words.txt");
+        assert url != null;
+        Path path = Paths.get(url.toURI());
+        this.words = Files.readAllLines(path, StandardCharsets.UTF_8);
     }
 
     /**
@@ -20,6 +31,6 @@ public class WordleData {
      * @return random entry from wordlist.
      */
     public String getWord() {
-        return words[rand.nextInt(words.length)];
+        return words.get(rand.nextInt(words.size()));
     }
 }
