@@ -7,14 +7,14 @@ import javafx.scene.Node;
 public enum LetterStatus {
     EMPTY, UNLOCKED, WRONG, PRESENT, CORRECT;
 
-    private final PseudoClass emptyPseudoclass = PseudoClass.getPseudoClass("empty");
+    private final PseudoClass emptyPseudoClass = PseudoClass.getPseudoClass("empty");
     private final PseudoClass unlockedPseudoClass = PseudoClass.getPseudoClass("unlocked");
     private final PseudoClass wrongPseudoClass = PseudoClass.getPseudoClass("wrong");
     private final PseudoClass presentPseudoClass = PseudoClass.getPseudoClass("present");
     private final PseudoClass correctPseudoClass = PseudoClass.getPseudoClass("correct");
 
     public void updatePseudoClass(Node node, LetterStatus letterStatus) {
-        node.pseudoClassStateChanged(emptyPseudoclass, false);
+        node.pseudoClassStateChanged(emptyPseudoClass, false);
         node.pseudoClassStateChanged(unlockedPseudoClass, false);
         node.pseudoClassStateChanged(wrongPseudoClass, false);
         node.pseudoClassStateChanged(presentPseudoClass, false);
@@ -22,7 +22,7 @@ public enum LetterStatus {
 
         switch (letterStatus) {
             case EMPTY:
-                node.pseudoClassStateChanged(emptyPseudoclass, true);
+                node.pseudoClassStateChanged(emptyPseudoClass, true);
             case UNLOCKED:
                 node.pseudoClassStateChanged(unlockedPseudoClass, true);
             case WRONG:

@@ -32,10 +32,11 @@ public record WordleModel() {
                 int guesses = 6;
                 List<List<LetterModel>> letters = new ArrayList<>(guesses);
                 for(int i = 0; i < guesses; i++) {
+                        final int finalI = i;
                         letters.add(
                                 IntStream
                                         .range(0, wordLength)
-                                        .mapToObj(LetterModel::new)
+                                        .mapToObj(a -> new LetterModel(finalI, a))
                                         .collect(Collectors.toList())
                                 );
                 }
