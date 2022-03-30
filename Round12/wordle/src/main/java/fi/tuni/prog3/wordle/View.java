@@ -1,6 +1,8 @@
 package fi.tuni.prog3.wordle;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -45,7 +47,7 @@ public class View extends Region {
 
     private HBox createRow(int rowNumber) {
         HBox row = new HBox(this.HORIZ_SPACING);
-        for (int column = 0; column < WordleModel.wordLength; column++) {
+        for (int column = 0; column < WordleModel.word.size(); column++) {
             StackPane letterBox = letterBox(rowNumber, column);
             letterBox.setId(String.format("%d_%d", rowNumber, column));
             row.getChildren().add(letterBox);
@@ -57,13 +59,20 @@ public class View extends Region {
         StackPane stackPane = new StackPane();
         LetterModel letterModel = WordleModel.letters[row][column];
 
+        // Test field
         Label label = new Label();
         label.getStyleClass().add("tile-letter");
         label.textProperty().bind(Bindings.createStringBinding(
                 () -> letterModel.letter().get().toString(),
                 letterModel.letter()
         ));
+
+        // Letter background
         stackPane.getStyleClass().add("tile-box");
+        letterModel.status().addListener((observableValue, letterStatus, t1) -> {
+            LetterStatus status = letterModel.status().get();
+            status.updatePseudoClass(stackPane, status);
+        });
         stackPane.getChildren().add(label);
 
         return stackPane;

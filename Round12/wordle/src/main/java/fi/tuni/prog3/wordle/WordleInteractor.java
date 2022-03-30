@@ -2,15 +2,46 @@ package fi.tuni.prog3.wordle;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.stream.Collectors;
 
 public class WordleInteractor {
 
-    private WordleData data = new WordleData();
+    private final WordleData data = new WordleData();
 
     public WordleInteractor() throws URISyntaxException, IOException {
+        WordleModel.word.setAll(data.getWord().toUpperCase().chars().mapToObj(e -> (char)e).collect(Collectors.toList()));
+        WordleModel.populateLetterModel();
+        System.out.println(WordleModel.word);
     }
 
     public void checkWord() {
+        if (WordleModel.currentColumn == WordleModel.word.size()) {
+            LetterModel[] guess = WordleModel.letters[WordleModel.currentRow];
+            performCheck(guess);
+            WordleModel.currentRow++;
+            WordleModel.currentColumn = 0;
+        }
+    }
+
+    private void performCheck(LetterModel[] guess) {
+        List<LetterModel> list = Arrays.asList(guess);
+        ListIterator<LetterModel> listIterator = list.listIterator();
+        while(listIterator.hasNext()) {
+            int index = listIterator.nextIndex();
+            LetterModel letterModel = listIterator.next();
+            char letter = letterModel.letter().get();
+            if (WordleModel.word.get(index) == letter) {
+                letterModel.status().set(LetterStatus.CORRECT);
+            } else if (WordleModel.word.contains(letter)) {
+                letterModel.status().set(LetterStatus.PRESENT);
+            } else {
+                letterModel.status().set(LetterStatus.WRONG);
+            }
+        }
     }
 
     public void eraseLetter() {
@@ -23,9 +54,8 @@ public class WordleInteractor {
     }
 
     public void handleLetter(char c) {
-        if (WordleModel.currentColumn <= WordleModel.wordLength - 1) {
+        if (WordleModel.currentColumn <= WordleModel.word.size() - 1) {
             LetterModel square = WordleModel.letters[WordleModel.currentRow][WordleModel.currentColumn];
-            square.status().setValue(LetterStatus.UNLOCKED);
             square.letter().setValue(c);
             WordleModel.currentColumn++;
             System.out.format("Added %c to spot %d,%d%n", c, square.row(), square.column());
