@@ -9,6 +9,10 @@ import java.net.URISyntaxException;
 
 
 public class Wordle extends Application {
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage stage) throws URISyntaxException, IOException {
         WordleController controller = new WordleController();
@@ -17,9 +21,5 @@ public class Wordle extends Application {
         stage.setScene(scene);
         stage.show();
         controller.focus();
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }

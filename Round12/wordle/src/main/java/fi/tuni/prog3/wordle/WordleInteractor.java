@@ -2,9 +2,7 @@ package fi.tuni.prog3.wordle;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class WordleInteractor {
@@ -29,17 +27,19 @@ public class WordleInteractor {
     private void performCheck(LetterModel[] guess) {
         List<LetterModel> list = Arrays.asList(guess);
         ListIterator<LetterModel> listIterator = list.listIterator();
+        Set<Character> checkedLetters = new HashSet<>();
         while (listIterator.hasNext()) {
             int index = listIterator.nextIndex();
             LetterModel letterModel = listIterator.next();
             char letter = letterModel.letter().get();
             if (WordleModel.word.get(index) == letter) {
                 letterModel.status().set(LetterStatus.CORRECT);
-            } else if (WordleModel.word.contains(letter)) {
+            } else if (WordleModel.word.contains(letter) && !checkedLetters.contains(letter)) {
                 letterModel.status().set(LetterStatus.PRESENT);
             } else {
                 letterModel.status().set(LetterStatus.WRONG);
             }
+            checkedLetters.add(letter);
         }
     }
 
