@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 public class WordleController {
 
     private final WordleInteractor interactor = new WordleInteractor();
-    public Region view = new View();
+    public Region view = new View(interactor);
 
     WordleController() throws URISyntaxException, IOException {
         view.setOnKeyPressed(keyEvent -> {
