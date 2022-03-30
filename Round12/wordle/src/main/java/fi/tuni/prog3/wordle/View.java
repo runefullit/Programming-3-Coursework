@@ -17,10 +17,10 @@ public class View extends Region {
 
     public View() {
         VBox mainContainer = new VBox(40.0, topRow(), createTilePane());
-        mainContainer.getStylesheets().add(Objects.requireNonNull(View.class.getResource("css/wordle.css")).toExternalForm());
+        this.getStylesheets().add(Objects.requireNonNull(View.class.getResource("css/wordle.css")).toExternalForm());
+        this.getChildren().add(mainContainer);
         mainContainer.getStyleClass().add("main-screen");
         mainContainer.setAlignment(Pos.TOP_CENTER);
-        this.getChildren().add(mainContainer);
 
         // PseudoClass darkModePseudoClass = PseudoClass.getPseudoClass("dark-mode");
     }

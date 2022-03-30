@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 public record WordleModel() {
-    static int wordLength = 4;
-    static LetterModel[][] letters = populateLetterModel();
     static ObservableList<Character> word = FXCollections.observableArrayList();
+    static int wordLength = 6;
+    static LetterModel[][] letters = populateLetterModel();
     static Map<Character, ObjectProperty<LetterStatus>> alphabet = IntStream.rangeClosed('A', 'Z')
             .collect(HashMap::new,
                     (map, c) -> map.put((char) c, new SimpleObjectProperty<>(LetterStatus.UNLOCKED)),

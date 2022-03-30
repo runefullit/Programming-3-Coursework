@@ -14,8 +14,6 @@ public class Wordle extends Application {
     public void start(Stage stage) throws URISyntaxException, IOException {
         WordleController controller = new WordleController();
         Scene scene = new Scene(controller.view);
-        scene.getStylesheets().clear();
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("css/wordle.css")).toExternalForm());
         stage.setTitle("Wordle");
         stage.setScene(scene);
         stage.show();
