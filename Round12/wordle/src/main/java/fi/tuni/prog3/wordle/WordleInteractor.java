@@ -2,7 +2,6 @@ package fi.tuni.prog3.wordle;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
@@ -13,7 +12,7 @@ public class WordleInteractor {
     private final WordleData data = new WordleData();
 
     public WordleInteractor() throws URISyntaxException, IOException {
-        WordleModel.word.setAll(data.getWord().toUpperCase().chars().mapToObj(e -> (char)e).collect(Collectors.toList()));
+        WordleModel.word.setAll(data.getWord().toUpperCase().chars().mapToObj(e -> (char) e).collect(Collectors.toList()));
         WordleModel.populateLetterModel();
         System.out.println(WordleModel.word);
     }
@@ -30,7 +29,7 @@ public class WordleInteractor {
     private void performCheck(LetterModel[] guess) {
         List<LetterModel> list = Arrays.asList(guess);
         ListIterator<LetterModel> listIterator = list.listIterator();
-        while(listIterator.hasNext()) {
+        while (listIterator.hasNext()) {
             int index = listIterator.nextIndex();
             LetterModel letterModel = listIterator.next();
             char letter = letterModel.letter().get();

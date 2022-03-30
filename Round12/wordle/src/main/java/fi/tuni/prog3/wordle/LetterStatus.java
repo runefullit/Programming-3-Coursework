@@ -19,14 +19,11 @@ public enum LetterStatus {
 
         if (letterStatus == EMPTY) {
             node.pseudoClassStateChanged(emptyPseudoClass, true);
-        }
-        else if (letterStatus == WRONG) {
+        } else if (letterStatus == WRONG) {
             node.pseudoClassStateChanged(wrongPseudoClass, true);
-        }
-        else if (letterStatus == PRESENT) {
+        } else if (letterStatus == PRESENT) {
             node.pseudoClassStateChanged(presentPseudoClass, true);
-        }
-        else if (letterStatus == CORRECT) {
+        } else if (letterStatus == CORRECT) {
             node.pseudoClassStateChanged(correctPseudoClass, true);
         }
     }
