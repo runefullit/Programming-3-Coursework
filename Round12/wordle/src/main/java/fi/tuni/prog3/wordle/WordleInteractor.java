@@ -10,21 +10,23 @@ public class WordleInteractor {
     private final WordleData data = new WordleData();
 
     public WordleInteractor() throws URISyntaxException, IOException {
-        WordleModel.word.setAll(data.getWord().toUpperCase().chars().mapToObj(e -> (char) e).collect(Collectors.toList()));
-        WordleModel.populateLetterModel();
-        System.out.println(WordleModel.word);
+        this.setNewWord();
     }
 
     public void checkWord() {
         if (WordleModel.currentColumn == WordleModel.word.size()) {
-            LetterModel[] guess = WordleModel.letters[WordleModel.currentRow];
-            performCheck(guess);
-            WordleModel.currentRow++;
+            LetterModel[] guess = WordleModel.letters[WordleModel.currentRow.get()];
+            this.performCheck(guess);
+            WordleModel.currentRow.set(WordleModel.currentRow.get() + 1);
             WordleModel.currentColumn = 0;
         }
     }
 
     private void performCheck(LetterModel[] guess) {
+        // Flag the game over if it is.
+        List<Character> guessList = Arrays.stream(guess).map(e -> e.letter().get()).toList();
+        WordleModel.wordGuessed.setValue(guessList.equals(WordleModel.word));
+
         List<LetterModel> list = Arrays.asList(guess);
         ListIterator<LetterModel> listIterator = list.listIterator();
         Set<Character> checkedLetters = new HashSet<>();
@@ -46,21 +48,22 @@ public class WordleInteractor {
     public void eraseLetter() {
         if (WordleModel.currentColumn > 0) {
             WordleModel.currentColumn--;
-            LetterModel square = WordleModel.letters[WordleModel.currentRow][WordleModel.currentColumn];
+            LetterModel square = WordleModel.letters[WordleModel.currentRow.get()][WordleModel.currentColumn];
             square.clear();
-            System.out.format("Removed letter from spot %d,%d%n", square.row(), square.column());
         }
     }
 
     public void handleLetter(char c) {
-        if (WordleModel.currentColumn <= WordleModel.word.size() - 1) {
-            LetterModel square = WordleModel.letters[WordleModel.currentRow][WordleModel.currentColumn];
+        if (WordleModel.currentColumn <= WordleModel.word.size() - 1 && !WordleModel.gameOver.get()) {
+            LetterModel square = WordleModel.letters[WordleModel.currentRow.get()][WordleModel.currentColumn];
             square.letter().setValue(c);
             WordleModel.currentColumn++;
-            System.out.format("Added %c to spot %d,%d%n", c, square.row(), square.column());
         }
     }
 
     public void setNewWord() {
+        WordleModel.word.setAll(data.getWord().toUpperCase().chars().mapToObj(e -> (char) e).collect(Collectors.toList()));
+        WordleModel.populateLetterModel();
+        System.out.println(WordleModel.word);
     }
 }
