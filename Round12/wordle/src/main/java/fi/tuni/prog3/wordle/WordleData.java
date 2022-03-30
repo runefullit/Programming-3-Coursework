@@ -27,6 +27,7 @@ public class WordleData {
 
     /**
      * Get a random value from the given list of words.
+     *
      * @return random entry from wordlist.
      */
     public String getWord() {

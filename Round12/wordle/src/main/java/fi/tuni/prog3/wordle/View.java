@@ -4,7 +4,10 @@ import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.util.Objects;
 
@@ -34,7 +37,7 @@ public class View extends Region {
 
     private VBox createTilePane() {
         VBox tilePane = new VBox(this.VERT_SPACING);
-        for(int i = 1; i <= 6; i++) {
+        for (int i = 0; i < 6; i++) {
             tilePane.getChildren().add(createRow(i));
         }
         return tilePane;
@@ -42,7 +45,7 @@ public class View extends Region {
 
     private HBox createRow(int rowNumber) {
         HBox row = new HBox(this.HORIZ_SPACING);
-        for (int column = 1; column <= 6; column++) {
+        for (int column = 0; column < WordleModel.wordLength; column++) {
             StackPane letterBox = letterBox(rowNumber, column);
             letterBox.setId(String.format("%d_%d", rowNumber, column));
             row.getChildren().add(letterBox);
@@ -52,11 +55,14 @@ public class View extends Region {
 
     private StackPane letterBox(int row, int column) {
         StackPane stackPane = new StackPane();
+        LetterModel letterModel = WordleModel.letters[row][column];
 
         Label label = new Label();
         label.getStyleClass().add("tile-letter");
-        label.textProperty().bind(Bindings.createStringBinding(() -> new LetterModel(row, column).letter().getValue().toString()));
-
+        label.textProperty().bind(Bindings.createStringBinding(
+                () -> letterModel.letter().get().toString(),
+                letterModel.letter()
+        ));
         stackPane.getStyleClass().add("tile-box");
         stackPane.getChildren().add(label);
 

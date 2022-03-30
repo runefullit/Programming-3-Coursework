@@ -1,45 +1,34 @@
 package fi.tuni.prog3.wordle;
 
 
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
-import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 public record WordleModel() {
-        static int wordLength = 6;
-        static List<List<LetterModel>> letters = buildLetters();
-        static ObservableList<Character> word = FXCollections.observableArrayList();
-        static Map<Character, ObjectProperty<LetterStatus>> alphabet = IntStream.rangeClosed('A', 'Z')
-                .collect(HashMap::new,
-                        (map, c) -> map.put((char)c, new SimpleObjectProperty<>(LetterStatus.UNLOCKED)),
-                        HashMap::putAll);
-        static IntegerProperty currentRow = new SimpleIntegerProperty(0);
-        static BooleanProperty darkMode = new SimpleBooleanProperty(false);
-        static BooleanProperty wordGuessed = new SimpleBooleanProperty(false);
-        static ObservableBooleanValue gameOver = Bindings.createBooleanBinding(
-                () -> (currentRow.getValue() > 5 || wordGuessed.getValue()),
-                currentRow,
-                wordGuessed);
+    static int wordLength = 4;
+    static LetterModel[][] letters = populateLetterModel();
+    static ObservableList<Character> word = FXCollections.observableArrayList();
+    static Map<Character, ObjectProperty<LetterStatus>> alphabet = IntStream.rangeClosed('A', 'Z')
+            .collect(HashMap::new,
+                    (map, c) -> map.put((char) c, new SimpleObjectProperty<>(LetterStatus.UNLOCKED)),
+                    HashMap::putAll);
+    static int currentRow = 0;
+    static int currentColumn = 0;
+    static BooleanProperty darkMode = new SimpleBooleanProperty(false);
+    static BooleanProperty wordGuessed = new SimpleBooleanProperty(false);
 
-
-        private static List<List<LetterModel>> buildLetters() {
-                int guesses = 6;
-                List<List<LetterModel>> letters = new ArrayList<>(guesses);
-                for(int i = 0; i < guesses; i++) {
-                        final int finalI = i;
-                        letters.add(
-                                IntStream
-                                        .range(0, wordLength)
-                                        .mapToObj(a -> new LetterModel(finalI, a))
-                                        .collect(Collectors.toList())
-                                );
-                }
-                return letters;
+    private static LetterModel[][] populateLetterModel() {
+        LetterModel[][] letters = new LetterModel[6][wordLength];
+        for (int row = 0; row < 6; row++) {
+            for (int col = 0; col < wordLength; col++) {
+                letters[row][col] = new LetterModel(row, col);
+            }
         }
+        return letters;
+    }
 }

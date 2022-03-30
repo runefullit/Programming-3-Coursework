@@ -35,6 +35,6 @@ public enum LetterStatus {
     }
 
     public void addPseudoClass(Node node, ObjectProperty<LetterStatus> property) {
-        property.addListener( a -> updatePseudoClass(node, property.get()));
+        property.addListener(a -> updatePseudoClass(node, property.get()));
     }
 }
