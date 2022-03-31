@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Builder;
 
 import java.util.Objects;
+import java.util.Stack;
 
 import static fi.tuni.prog3.wordle.WordleAnimations.showToast;
 import static fi.tuni.prog3.wordle.WordleAnimations.wiggleRow;
@@ -127,7 +128,9 @@ public class View implements Builder<Region> {
         stackPane.getStyleClass().add("tile-box");
         letterModel.status().addListener((observableValue, letterStatus, t1) -> {
             LetterStatus status = observableValue.getValue();
+            status.updatePseudoClass(label, status);
             status.updatePseudoClass(stackPane, status);
+            System.out.format("%d_%d: %s%n", row, col, stackPane.getBackground().getFills().get(0).getFill());
         });
         stackPane.getChildren().add(label);
 
