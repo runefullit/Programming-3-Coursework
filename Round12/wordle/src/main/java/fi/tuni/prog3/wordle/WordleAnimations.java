@@ -9,13 +9,13 @@ import javafx.util.Duration;
 public class WordleAnimations {
 
     static void showToast(Node node) {
-        FadeTransition fadeIn = new FadeTransition(new Duration(400.0), node);
+        FadeTransition fadeIn = new FadeTransition(new Duration(200.0), node);
         fadeIn.setFromValue(0.0);
         fadeIn.setToValue(1.0);
 
-        FadeTransition fadeOut = new FadeTransition(new Duration(400.0), node);
-        fadeIn.setFromValue(1.0);
-        fadeIn.setToValue(0.0);
+        FadeTransition fadeOut = new FadeTransition(new Duration(200.0), node);
+        fadeOut.setFromValue(1.0);
+        fadeOut.setToValue(0.0);
 
         PauseTransition pause = new PauseTransition(new Duration(2000.0));
 
