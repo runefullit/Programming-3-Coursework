@@ -16,6 +16,7 @@ import java.util.Objects;
 import static fi.tuni.prog3.wordle.WordleAnimations.showToast;
 import static fi.tuni.prog3.wordle.WordleAnimations.wiggleRow;
 import static fi.tuni.prog3.wordle.WordleInteractor.setNewWord;
+import static javafx.scene.input.MouseEvent.MOUSE_ENTERED_TARGET;
 
 public class View implements Builder<Region> {
     private VBox tilePane;
@@ -44,13 +45,11 @@ public class View implements Builder<Region> {
         Button startGameBtn = new Button("Start new game");
         startGameBtn.setId("startGameBtn");
         startGameBtn.getStyleClass().add("startGame-button");
-        startGameBtn.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, mouseEvent -> {
-            startGameBtn.setBorder(new Border(new BorderStroke(Color.GRAY,
-                    BorderStrokeStyle.SOLID,
-                    new CornerRadii(2.0),
-                    new BorderWidths(2.0)
-            )));
-        });
+        startGameBtn.addEventHandler(MOUSE_ENTERED_TARGET, mouseEvent -> startGameBtn.setBorder(new Border(new BorderStroke(Color.GRAY,
+                BorderStrokeStyle.SOLID,
+                new CornerRadii(2.0),
+                new BorderWidths(2.0)
+        ))));
         startGameBtn.setOnAction(actionEvent -> {
             setNewWord();
             this.mainContainer.requestFocus(); // Startbutton grabs focus, if this isn't here.
