@@ -18,6 +18,8 @@ public record WordleModel() {
     static BooleanProperty darkMode = new SimpleBooleanProperty(false);
     static BooleanProperty wordGuessed = new SimpleBooleanProperty(false);
     static ObservableBooleanValue gameOver = Bindings.createBooleanBinding( () -> currentRow.get() > 5 || wordGuessed.get(), currentRow, wordGuessed);
+    static BooleanProperty resizeWindow = new SimpleBooleanProperty(false);
+    static ObservableBooleanValue windowShouldResize = Bindings.createBooleanBinding( () -> resizeWindow.get(), resizeWindow);
 
     static void populateLetterModel() {
         LetterModel[][] letters = new LetterModel[6][word.size()];

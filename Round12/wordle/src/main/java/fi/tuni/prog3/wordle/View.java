@@ -34,6 +34,7 @@ public class View extends Region {
             this.mainContainer.getChildren().remove(this.tilePane);
             this.tilePane = createTilePane();
             this.mainContainer.getChildren().add(this.tilePane);
+            WordleModel.resizeWindow.setValue(true);
         });
 
         Label infoBox = new Label();

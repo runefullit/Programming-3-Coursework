@@ -12,6 +12,10 @@ public class Wordle extends Application {
 
     @Override
     public void start(Stage stage) {
+        WordleModel.windowShouldResize.addListener((observableValue, aBoolean, t1) -> {
+            stage.sizeToScene();
+            WordleModel.resizeWindow.setValue(false);
+        });
         WordleController controller = new WordleController();
         Scene scene = new Scene(controller.view);
         stage.setTitle("Wordle");
