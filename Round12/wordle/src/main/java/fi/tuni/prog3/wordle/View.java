@@ -122,7 +122,7 @@ public class View implements Builder<Region> {
         // Letter background
         stackPane.getStyleClass().add("tile-box");
         letterModel.status().addListener((observableValue, letterStatus, t1) -> {
-            LetterStatus status = letterModel.status().get();
+            LetterStatus status = observableValue.getValue();
             status.updatePseudoClass(stackPane, status);
         });
         stackPane.getChildren().add(label);

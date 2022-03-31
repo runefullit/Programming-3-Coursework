@@ -42,6 +42,7 @@ public class WordleInteractor {
         if (WordleModel.currentCol <= WordleModel.word.size() - 1 && !WordleModel.gameOver.get()) {
             LetterModel square = WordleModel.letters[WordleModel.currentRow.get()][WordleModel.currentCol];
             square.letter().setValue(c);
+            square.status().setValue(LetterStatus.UNLOCKED);
             WordleModel.currentCol++;
         }
     }
