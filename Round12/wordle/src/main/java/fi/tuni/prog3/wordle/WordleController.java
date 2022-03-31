@@ -11,7 +11,7 @@ public class WordleController {
 
     WordleController() {
         setNewWord();
-        this.view = new View();
+        this.view = new View().build();
         this.view.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode().equals(KeyCode.ENTER)) {
                 checkWord();
