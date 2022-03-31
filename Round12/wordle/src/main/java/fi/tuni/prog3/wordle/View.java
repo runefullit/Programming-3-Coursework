@@ -1,8 +1,6 @@
 package fi.tuni.prog3.wordle;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -85,7 +83,7 @@ public class View implements Builder<Region> {
                 WordleModel.infoText
         ));
         WordleModel.infoText.addListener((observableValue, s, t1) -> {
-            if(observableValue.getValue() != "") showToast(infoBox);
+            if (observableValue.getValue() != "") showToast(infoBox);
         });
         infoBox.setId("infoBox");
         infoBox.getStyleClass().add("bad-word");
@@ -101,7 +99,7 @@ public class View implements Builder<Region> {
         }
         WordleModel.infoText.addListener((observableValue, s, t1) -> {
             if (InfoBoxAnswers.PREMATURE.equalsMessage(WordleModel.infoText.get()) &&
-            WordleModel.currentRow.get() == rowNumber) {
+                    WordleModel.currentRow.get() == rowNumber) {
                 wiggleRow(row);
             }
         });

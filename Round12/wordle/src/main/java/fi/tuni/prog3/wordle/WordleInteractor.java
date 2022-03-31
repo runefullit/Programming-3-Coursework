@@ -1,7 +1,5 @@
 package fi.tuni.prog3.wordle;
 
-import javafx.scene.paint.LinearGradient;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
