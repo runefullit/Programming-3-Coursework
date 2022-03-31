@@ -72,6 +72,7 @@ public class View implements Builder<Region> {
 
     private HBox createRow(int rowNumber) {
         HBox row = new HBox(5.0);
+        row.setAlignment(Pos.TOP_CENTER);
         for (int col = 0; col < WordleModel.word.size(); col++) {
             StackPane letterBox = letterBox(rowNumber, col);
             row.getChildren().add(letterBox);

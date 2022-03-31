@@ -2,6 +2,7 @@ package fi.tuni.prog3.wordle;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class VirtualKeyBoard extends Region {
+public class VirtualKeyBoard extends VBox {
 
     private final List<Character> row1Keys = "QWERTYUIOP".toUpperCase().chars().mapToObj(e -> (char) e).toList();
     private final List<Character> row2Keys = "ASDFGHJKL".toUpperCase().chars().mapToObj(e -> (char) e).toList();
@@ -27,13 +28,14 @@ public class VirtualKeyBoard extends Region {
     }
 
     private void init() {
-        VBox mainContainer = new VBox(8.0);
-        mainContainer.getChildren().addAll(createRow(row1Keys), createRow(row2Keys, 20.0), createRow(row3Keys, 0.0, true, true));
-        this.getChildren().add(mainContainer);
+        this.setSpacing(8.0);
+        this.setAlignment(Pos.TOP_CENTER);
+        this.getChildren().addAll(createRow(row1Keys), createRow(row2Keys, 20.0), createRow(row3Keys, 0.0, true, true));
     }
 
     private HBox createRow(List<Character> letters, double leftPadding, Boolean includeBackspace, Boolean includeEnter) {
         HBox row = new HBox(6.0);
+        row.setAlignment(Pos.TOP_CENTER);
         if (includeEnter) row.getChildren().add(createEnterKey());
         row.getChildren().addAll(letters.stream().map(this::letterButtonSetup).toList());
         if (includeBackspace) row.getChildren().add(createBackSpaceKey());
