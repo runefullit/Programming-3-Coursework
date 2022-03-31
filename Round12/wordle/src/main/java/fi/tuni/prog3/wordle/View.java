@@ -17,14 +17,16 @@ import static fi.tuni.prog3.wordle.WordleInteractor.setNewWord;
 public class View implements Builder<Region> {
     private VBox tilePane;
     private Region keyboard;
+    private Label infoBox;
     private VBox mainContainer;
 
     @Override
     public Region build() {
         // Initialising UI elements
         this.tilePane = createTilePane();
+        this.infoBox = createInfoBox();
         this.keyboard = new VirtualKeyBoard();
-        this.mainContainer = new VBox(40.0, topRow(), this.tilePane, this.keyboard);
+        this.mainContainer = new VBox(40.0, topRow(), this.tilePane, this.infoBox, this.keyboard);
 
         // CSS and positional tweaks.
         this.mainContainer.getStylesheets().add(Objects.requireNonNull(View.class.getResource("css/wordle.css")).toExternalForm());
@@ -33,31 +35,31 @@ public class View implements Builder<Region> {
         return this.mainContainer;
     }
 
-    private VBox topRow() {
+    private StackPane topRow() {
+        StackPane topRow = new StackPane();
+
         Button startGameBtn = new Button("Start new game");
         startGameBtn.setId("startGameBtn");
         startGameBtn.setOnAction(actionEvent -> {
             setNewWord();
             this.mainContainer.requestFocus(); // Startbutton grabs focus, if this isn't here.
             // Removing containers used in old game,
-            this.mainContainer.getChildren().removeAll(this.tilePane, this.keyboard);
+            this.mainContainer.getChildren().removeAll(this.tilePane, this.infoBox, this.keyboard);
             // Instantiating new containers and adding them.
             this.tilePane = createTilePane();
+            this.infoBox = createInfoBox();
             this.keyboard = new VirtualKeyBoard();
-            this.mainContainer.getChildren().addAll(this.tilePane, this.keyboard);
+            this.mainContainer.getChildren().addAll(this.tilePane, this.infoBox, this.keyboard);
             // Tells stage that it should be resized.
             WordleModel.resizeWindow.setValue(true);
         });
 
-        Label infoBox = new Label();
-        infoBox.textProperty().bind(Bindings.createStringBinding(
-                () -> WordleModel.infoText.get(),
-                WordleModel.infoText
-        ));
-        infoBox.setId("infoBox");
+        Label title = new Label("WordleFX");
+        title.getStyleClass().add("title");
 
-        VBox topRow = new VBox(startGameBtn, infoBox);
-        topRow.setAlignment(Pos.CENTER);
+        topRow.getChildren().addAll(startGameBtn, title);
+        StackPane.setAlignment(startGameBtn, Pos.BOTTOM_LEFT);
+
 
         return topRow;
     }
@@ -68,6 +70,17 @@ public class View implements Builder<Region> {
             tilePane.getChildren().add(createRow(i));
         }
         return tilePane;
+    }
+
+    private Label createInfoBox() {
+        Label infoBox = new Label();
+        infoBox.textProperty().bind(Bindings.createStringBinding(
+                () -> WordleModel.infoText.get(),
+                WordleModel.infoText
+        ));
+        infoBox.setId("infoBox");
+        infoBox.getStyleClass().add("bad-word");
+        return infoBox;
     }
 
     private HBox createRow(int rowNumber) {
