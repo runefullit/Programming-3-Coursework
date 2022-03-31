@@ -4,8 +4,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,16 @@ public class VirtualKeyBoard extends VBox {
         Button button = new Button(letter);
         button.setMinSize(44.0, 58.0);
         button.getStyleClass().add("key-button");
+        button.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, mouseEvent -> {
+            button.setBorder(new Border(new BorderStroke(Color.GRAY,
+                    BorderStrokeStyle.SOLID,
+                    new CornerRadii(2.0),
+                    new BorderWidths(2.0)
+            )));
+        });
+        button.addEventHandler(MouseEvent.MOUSE_EXITED_TARGET, mouseEvent -> {
+            button.setBorder(Border.EMPTY);
+        });
         return button;
     }
 

@@ -25,9 +25,10 @@
 }
 
 .startGame-button {
-    -fx-border-color: #3a3a3c;
+    -fx-border-color: -empty-border-colour;
     -fx-background-color: -key-background-colour;
-    -fx-font-family: "Helvetica";
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
 }
 
 

@@ -1,13 +1,14 @@
 package fi.tuni.prog3.wordle;
 
 import javafx.beans.binding.Bindings;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.util.Builder;
 
 import java.util.Objects;
@@ -43,6 +44,13 @@ public class View implements Builder<Region> {
         Button startGameBtn = new Button("Start new game");
         startGameBtn.setId("startGameBtn");
         startGameBtn.getStyleClass().add("startGame-button");
+        startGameBtn.addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET, mouseEvent -> {
+            startGameBtn.setBorder(new Border(new BorderStroke(Color.GRAY,
+                    BorderStrokeStyle.SOLID,
+                    new CornerRadii(2.0),
+                    new BorderWidths(2.0)
+            )));
+        });
         startGameBtn.setOnAction(actionEvent -> {
             setNewWord();
             this.mainContainer.requestFocus(); // Startbutton grabs focus, if this isn't here.
