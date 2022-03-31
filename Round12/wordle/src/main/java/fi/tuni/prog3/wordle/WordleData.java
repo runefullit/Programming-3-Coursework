@@ -28,6 +28,7 @@ public class WordleData {
 
     /**
      * Get the next word in given list.
+     *
      * @return next word in list.
      */
     public String getWord() {
@@ -38,6 +39,7 @@ public class WordleData {
 
     /**
      * Get a random value from the given list of words.
+     *
      * @return random entry from wordlist.
      */
     public String getRandomWord() {

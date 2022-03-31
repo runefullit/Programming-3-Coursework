@@ -4,7 +4,10 @@ import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.util.Objects;
 
@@ -14,16 +17,17 @@ public class View extends Region {
     private final double HORIZ_SPACING = 5.0;
     private final double VERT_SPACING = 7.0;
     private VBox tilePane = createTilePane();
-    private final VBox mainContainer = new VBox(40.0, topRow(), tilePane);
-
+    private Region keyboard;
     public View() {
+        this.keyboard = new VirtualKeyBoard();
+        this.mainContainer.getChildren().add(this.keyboard);
         this.getStylesheets().add(Objects.requireNonNull(View.class.getResource("css/wordle.css")).toExternalForm());
         this.getChildren().add(mainContainer);
         this.mainContainer.getStyleClass().add("main-screen");
         this.mainContainer.setAlignment(Pos.TOP_CENTER);
 
         // PseudoClass darkModePseudoClass = PseudoClass.getPseudoClass("dark-mode");
-    }
+    }    private final VBox mainContainer = new VBox(40.0, topRow(), tilePane);
 
     private VBox topRow() {
         Button startGameBtn = new Button("Start new game");
@@ -32,8 +36,11 @@ public class View extends Region {
             setNewWord();
             this.requestFocus();
             this.mainContainer.getChildren().remove(this.tilePane);
+            this.mainContainer.getChildren().remove(this.keyboard);
             this.tilePane = createTilePane();
             this.mainContainer.getChildren().add(this.tilePane);
+            this.keyboard = new VirtualKeyBoard();
+            this.mainContainer.getChildren().add(this.keyboard);
             WordleModel.resizeWindow.setValue(true);
         });
 
@@ -90,5 +97,7 @@ public class View extends Region {
 
         return stackPane;
     }
+
+
 
 }

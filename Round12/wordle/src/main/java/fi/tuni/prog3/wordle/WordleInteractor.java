@@ -22,6 +22,7 @@ public class WordleInteractor {
             performCheck(guess);
             WordleModel.currentRow.set(WordleModel.currentRow.get() + 1);
             WordleModel.currentCol = 0;
+            setAlphabet();
         } else {
             WordleModel.infoText.setValue("Give a complete word before pressing Enter!");
         }
@@ -68,5 +69,14 @@ public class WordleInteractor {
             }
             checkedLetters.add(letter);
         }
+    }
+
+    private static void setAlphabet() {
+        WordleModel.alphabet.forEach((key, value) -> Arrays.stream(WordleModel.letters)
+                .flatMap(Arrays::stream)
+                .filter(letter -> letter.letter().get().equals(key))
+                .forEach(e -> {
+                    if (e.status().get().ordinal() > value.get().ordinal()) value.set(e.status().get());
+                }));
     }
 }
