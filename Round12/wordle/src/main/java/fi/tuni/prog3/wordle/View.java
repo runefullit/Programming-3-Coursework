@@ -31,7 +31,7 @@ public class View implements Builder<Region> {
         this.mainContainer = new VBox(40.0, topRow(), this.tilePane, this.infoBox, this.keyboard);
 
         // CSS and positional tweaks.
-        File cssFile = new File("src/main/java/fi/tuni/prog3/wordle/wordle.css");
+        File cssFile = new File("wordle.css");
         try {
             this.mainContainer.getStylesheets().add(cssFile.toURI().toURL().toString());
         } catch (MalformedURLException e) {
