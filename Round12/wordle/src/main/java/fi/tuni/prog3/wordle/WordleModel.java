@@ -15,7 +15,7 @@ public record WordleModel() {
     static List<Character> word;
     static LetterModel[][] letters;
     static IntegerProperty currentRow = new SimpleIntegerProperty();
-    static int currentColumn = 0;
+    static int currentCol = 0;
     static BooleanProperty darkMode = new SimpleBooleanProperty(false);
     static BooleanProperty wordGuessed = new SimpleBooleanProperty(false);
     static ObservableBooleanValue gameOver = Bindings.createBooleanBinding( () -> currentRow.get() > 5 || wordGuessed.get(), currentRow, wordGuessed);

@@ -3,26 +3,49 @@ package fi.tuni.prog3.wordle;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class WordleInteractor {
 
-    private final WordleData data = new WordleData();
+    private static WordleData data = null;
 
-    public WordleInteractor() throws URISyntaxException, IOException {
-        this.setNewWord();
-    }
-
-    public void checkWord() {
-        if (WordleModel.currentColumn == WordleModel.word.size()) {
-            LetterModel[] guess = WordleModel.letters[WordleModel.currentRow.get()];
-            this.performCheck(guess);
-            WordleModel.currentRow.set(WordleModel.currentRow.get() + 1);
-            WordleModel.currentColumn = 0;
+    static {
+        try {
+            data = new WordleData();
+        } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private void performCheck(LetterModel[] guess) {
+    static void checkWord() {
+        if (WordleModel.currentCol == WordleModel.word.size()) {
+            LetterModel[] guess = WordleModel.letters[WordleModel.currentRow.get()];
+            performCheck(guess);
+            WordleModel.currentRow.set(WordleModel.currentRow.get() + 1);
+            WordleModel.currentCol = 0;
+        }
+    }
+
+    static void eraseLetter() {
+        if (WordleModel.currentCol > 0) {
+            WordleModel.currentCol--;
+            LetterModel square = WordleModel.letters[WordleModel.currentRow.get()][WordleModel.currentCol];
+            square.clear();
+        }
+    }
+
+    static void handleLetter(char c) {
+        if (WordleModel.currentCol <= WordleModel.word.size() - 1 && !WordleModel.gameOver.get()) {
+            LetterModel square = WordleModel.letters[WordleModel.currentRow.get()][WordleModel.currentCol];
+            square.letter().setValue(c);
+            WordleModel.currentCol++;
+        }
+    }
+
+    static void setNewWord() {
+        WordleModel.setNewWord(data.getWord());
+    }
+
+    private static void performCheck(LetterModel[] guess) {
         // Flag the game over if it is.
         List<Character> guessList = Arrays.stream(guess).map(e -> e.letter().get()).toList();
         WordleModel.wordGuessed.setValue(guessList.equals(WordleModel.word));
@@ -43,25 +66,5 @@ public class WordleInteractor {
             }
             checkedLetters.add(letter);
         }
-    }
-
-    public void eraseLetter() {
-        if (WordleModel.currentColumn > 0) {
-            WordleModel.currentColumn--;
-            LetterModel square = WordleModel.letters[WordleModel.currentRow.get()][WordleModel.currentColumn];
-            square.clear();
-        }
-    }
-
-    public void handleLetter(char c) {
-        if (WordleModel.currentColumn <= WordleModel.word.size() - 1 && !WordleModel.gameOver.get()) {
-            LetterModel square = WordleModel.letters[WordleModel.currentRow.get()][WordleModel.currentColumn];
-            square.letter().setValue(c);
-            WordleModel.currentColumn++;
-        }
-    }
-
-    public void setNewWord() {
-        WordleModel.setNewWord(data.getWord());
     }
 }

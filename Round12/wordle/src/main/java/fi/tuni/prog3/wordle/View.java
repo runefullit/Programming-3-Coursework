@@ -8,15 +8,15 @@ import javafx.scene.layout.*;
 
 import java.util.Objects;
 
+import static fi.tuni.prog3.wordle.WordleInteractor.setNewWord;
+
 public class View extends Region {
     private final double HORIZ_SPACING = 5.0;
     private final double VERT_SPACING = 7.0;
-    private final WordleInteractor interactor;
     private VBox tilePane = createTilePane();
-    private VBox mainContainer = new VBox(40.0, topRow(), tilePane);
+    private final VBox mainContainer = new VBox(40.0, topRow(), tilePane);
 
-    public View(WordleInteractor interactor) {
-        this.interactor = interactor;
+    public View() {
         this.getStylesheets().add(Objects.requireNonNull(View.class.getResource("css/wordle.css")).toExternalForm());
         this.getChildren().add(mainContainer);
         this.mainContainer.getStyleClass().add("main-screen");
@@ -29,7 +29,7 @@ public class View extends Region {
         Button startGameBtn = new Button("Start new game");
         startGameBtn.setId("startGameBtn");
         startGameBtn.setOnAction(actionEvent -> {
-            this.interactor.setNewWord();
+            setNewWord();
             this.requestFocus();
             this.mainContainer.getChildren().remove(this.tilePane);
             this.tilePane = createTilePane();
@@ -52,21 +52,21 @@ public class View extends Region {
 
     private HBox createRow(int rowNumber) {
         HBox row = new HBox(this.HORIZ_SPACING);
-        for (int column = 0; column < WordleModel.word.size(); column++) {
-            StackPane letterBox = letterBox(rowNumber, column);
-            letterBox.setId(String.format("%d_%d", rowNumber, column));
+        for (int col = 0; col < WordleModel.word.size(); col++) {
+            StackPane letterBox = letterBox(rowNumber, col);
             row.getChildren().add(letterBox);
         }
         return row;
     }
 
-    private StackPane letterBox(int row, int column) {
+    private StackPane letterBox(int row, int col) {
         StackPane stackPane = new StackPane();
-        LetterModel letterModel = WordleModel.letters[row][column];
+        LetterModel letterModel = WordleModel.letters[row][col];
 
         // Test field
         Label label = new Label();
         label.getStyleClass().add("tile-letter");
+        label.setId(String.format("%d_%d", row, col));
         label.textProperty().bind(Bindings.createStringBinding(
                 () -> letterModel.letter().get().toString(),
                 letterModel.letter()

@@ -4,9 +4,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 
 public class Wordle extends Application {
     public static void main(String[] args) {
@@ -14,7 +11,7 @@ public class Wordle extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws URISyntaxException, IOException {
+    public void start(Stage stage) {
         WordleController controller = new WordleController();
         Scene scene = new Scene(controller.view);
         stage.setTitle("Wordle");
