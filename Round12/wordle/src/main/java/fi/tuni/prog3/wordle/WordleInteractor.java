@@ -62,8 +62,6 @@ public class WordleInteractor {
     }
 
     public void setNewWord() {
-        WordleModel.word.setAll(data.getWord().toUpperCase().chars().mapToObj(e -> (char) e).collect(Collectors.toList()));
-        WordleModel.populateLetterModel();
-        System.out.println(WordleModel.word);
+        WordleModel.setNewWord(data.getWord());
     }
 }

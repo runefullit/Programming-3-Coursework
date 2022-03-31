@@ -7,11 +7,12 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableBooleanValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public record WordleModel() {
-    static ObservableList<Character> word = FXCollections.observableArrayList();
+    static List<Character> word;
     static LetterModel[][] letters;
     static IntegerProperty currentRow = new SimpleIntegerProperty();
     static int currentColumn = 0;
@@ -27,5 +28,18 @@ public record WordleModel() {
             }
         }
         WordleModel.letters = letters;
+    }
+
+    static void setNewWord(String word) {
+        WordleModel.word = word
+                .toUpperCase()
+                .chars()
+                .mapToObj(e -> (char) e)
+                .collect(Collectors.toList());
+        populateLetterModel();
+        currentRow.set(0);
+        currentRow.set(0);
+        wordGuessed.setValue(false);
+        System.out.println(WordleModel.word);
     }
 }
