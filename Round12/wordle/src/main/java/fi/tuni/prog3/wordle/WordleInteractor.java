@@ -28,7 +28,7 @@ public class WordleInteractor {
             WordleModel.currentCol = 0;
             setAlphabet();
         } else if (!WordleModel.gameOver.get()) {
-            WordleModel.infoText.setValue("Give a complete word before pressing Enter!");
+            WordleModel.infoText.setValue(InfoBoxAnswers.PREMATURE.toString());
         }
     }
 
@@ -57,9 +57,9 @@ public class WordleInteractor {
         List<Character> guessList = Arrays.stream(guess).map(e -> e.letter().get()).toList();
         WordleModel.wordGuessed.setValue(guessList.equals(WordleModel.word));
         if (WordleModel.wordGuessed.get()) {
-            WordleModel.infoText.setValue("Congratulations, you won!");
+            WordleModel.infoText.setValue(InfoBoxAnswers.PLAYER_WON.toString());
         } else if (WordleModel.currentRow.get() == 5) {
-            WordleModel.infoText.setValue("Game over, you lost!");
+            WordleModel.infoText.setValue(InfoBoxAnswers.GAME_OVER.toString());
         }
 
         List<LetterModel> list = Arrays.asList(guess);
