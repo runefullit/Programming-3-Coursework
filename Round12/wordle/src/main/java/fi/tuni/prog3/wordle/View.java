@@ -8,8 +8,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Builder;
 
-import java.util.Objects;
-import java.util.Stack;
+import java.io.File;
+import java.net.MalformedURLException;
 
 import static fi.tuni.prog3.wordle.WordleAnimations.showToast;
 import static fi.tuni.prog3.wordle.WordleAnimations.wiggleRow;
@@ -31,7 +31,12 @@ public class View implements Builder<Region> {
         this.mainContainer = new VBox(40.0, topRow(), this.tilePane, this.infoBox, this.keyboard);
 
         // CSS and positional tweaks.
-        this.mainContainer.getStylesheets().add(Objects.requireNonNull(View.class.getResource("css/wordle.css")).toExternalForm());
+        File cssFile = new File("src/main/java/fi/tuni/prog3/wordle/wordle.css");
+        try {
+            this.mainContainer.getStylesheets().add(cssFile.toURI().toURL().toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         this.mainContainer.getStyleClass().add("main-screen");
         this.mainContainer.setAlignment(Pos.TOP_CENTER);
         return this.mainContainer;
