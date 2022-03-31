@@ -24,6 +24,12 @@
     -toast-letter-colour: black;
 }
 
+.startGame-button {
+    -fx-border-color: #3a3a3c;
+    -fx-background-color: -key-background-colour;
+    -fx-font-family: "Helvetica";
+}
+
 
 .tile-letter {
     -fx-text-fill: -text-fill-colour;

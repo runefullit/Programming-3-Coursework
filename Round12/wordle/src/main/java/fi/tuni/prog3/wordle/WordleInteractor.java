@@ -1,8 +1,12 @@
 package fi.tuni.prog3.wordle;
 
+import javafx.scene.paint.LinearGradient;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class WordleInteractor {
 
@@ -23,7 +27,7 @@ public class WordleInteractor {
             WordleModel.currentRow.set(WordleModel.currentRow.get() + 1);
             WordleModel.currentCol = 0;
             setAlphabet();
-        } else {
+        } else if (!WordleModel.gameOver.get()) {
             WordleModel.infoText.setValue("Give a complete word before pressing Enter!");
         }
     }
@@ -52,22 +56,41 @@ public class WordleInteractor {
         // Flag the game over if it is.
         List<Character> guessList = Arrays.stream(guess).map(e -> e.letter().get()).toList();
         WordleModel.wordGuessed.setValue(guessList.equals(WordleModel.word));
+        if (WordleModel.wordGuessed.get()) {
+            WordleModel.infoText.setValue("Congratulations, you won!");
+        } else if (WordleModel.currentRow.get() == 5) {
+            WordleModel.infoText.setValue("Game over, you lost!");
+        }
 
         List<LetterModel> list = Arrays.asList(guess);
         ListIterator<LetterModel> listIterator = list.listIterator();
-        Set<Character> checkedLetters = new HashSet<>();
+
+        Set<Integer> correctIndexes = IntStream
+                .range(0, WordleModel.word.size())
+                .filter(i -> WordleModel.word.get(i) == guessList.get(i))
+                .boxed()
+                .collect(Collectors.toSet());
+
+        List<Character> trimmedWord = IntStream
+                .range(0, WordleModel.word.size())
+                .filter(i -> !correctIndexes.contains(i))
+                .mapToObj(c -> WordleModel.word.get(c))
+                .toList();
+
+        Set<Character> triedLetters = new HashSet<>();
+
         while (listIterator.hasNext()) {
             int index = listIterator.nextIndex();
             LetterModel letterModel = listIterator.next();
             char letter = letterModel.letter().get();
             if (WordleModel.word.get(index) == letter) {
                 letterModel.status().set(LetterStatus.CORRECT);
-            } else if (WordleModel.word.contains(letter) && !checkedLetters.contains(letter)) {
+            } else if (guessList.contains(letter) && trimmedWord.contains(letter) && !triedLetters.contains(letter)) {
                 letterModel.status().set(LetterStatus.PRESENT);
             } else {
                 letterModel.status().set(LetterStatus.WRONG);
             }
-            checkedLetters.add(letter);
+            triedLetters.add(letter);
         }
     }
 

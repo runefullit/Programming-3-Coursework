@@ -12,6 +12,7 @@ import javafx.util.Builder;
 
 import java.util.Objects;
 
+import static fi.tuni.prog3.wordle.WordleAnimations.showToast;
 import static fi.tuni.prog3.wordle.WordleInteractor.setNewWord;
 
 public class View implements Builder<Region> {
@@ -40,6 +41,7 @@ public class View implements Builder<Region> {
 
         Button startGameBtn = new Button("Start new game");
         startGameBtn.setId("startGameBtn");
+        startGameBtn.getStyleClass().add("startGame-button");
         startGameBtn.setOnAction(actionEvent -> {
             setNewWord();
             this.mainContainer.requestFocus(); // Startbutton grabs focus, if this isn't here.
@@ -58,7 +60,7 @@ public class View implements Builder<Region> {
         title.getStyleClass().add("title");
 
         topRow.getChildren().addAll(startGameBtn, title);
-        StackPane.setAlignment(startGameBtn, Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(startGameBtn, Pos.CENTER_LEFT);
 
 
         return topRow;
@@ -74,10 +76,14 @@ public class View implements Builder<Region> {
 
     private Label createInfoBox() {
         Label infoBox = new Label();
+        infoBox.setOpacity(0.0);
         infoBox.textProperty().bind(Bindings.createStringBinding(
                 () -> WordleModel.infoText.get(),
                 WordleModel.infoText
         ));
+        WordleModel.infoText.addListener((observableValue, s, t1) -> {
+            showToast(infoBox);
+        });
         infoBox.setId("infoBox");
         infoBox.getStyleClass().add("bad-word");
         return infoBox;
