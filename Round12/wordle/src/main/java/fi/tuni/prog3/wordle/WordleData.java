@@ -2,7 +2,6 @@ package fi.tuni.prog3.wordle;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,9 +19,10 @@ public class WordleData {
     private int current;
 
     public WordleData() throws URISyntaxException, IOException {
-        URL url = WordleData.class.getResource("data/words.txt");
-        assert url != null;
-        Path path = Paths.get(url.toURI());
+//        URL url = WordleData.class.getResource("data/words.txt");
+//        assert url != null;
+//        Path path = Paths.get(url.toURI());
+        Path path = Paths.get("words.txt");
         this.words = Files.readAllLines(path, StandardCharsets.UTF_8);
     }
 
