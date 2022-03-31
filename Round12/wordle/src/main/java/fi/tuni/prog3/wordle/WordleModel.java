@@ -4,12 +4,13 @@ package fi.tuni.prog3.wordle;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableBooleanValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 public record WordleModel() {
-    static List<Character> word;
+    static ObservableList<Character> word = FXCollections.observableArrayList();
     static LetterModel[][] letters;
     static IntegerProperty currentRow = new SimpleIntegerProperty();
     static int currentCol = 0;
@@ -29,11 +30,13 @@ public record WordleModel() {
     }
 
     static void setNewWord(String word) {
-        WordleModel.word = word
+        WordleModel.word.setAll(
+                word
                 .toUpperCase()
                 .chars()
                 .mapToObj(e -> (char) e)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList())
+        );
         populateLetterModel();
         currentRow.set(0);
         currentCol = 0;
