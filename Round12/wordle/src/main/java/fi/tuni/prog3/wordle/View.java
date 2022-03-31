@@ -99,7 +99,7 @@ public class View implements Builder<Region> {
         HBox row = new HBox(5.0);
         row.setAlignment(Pos.TOP_CENTER);
         for (int col = 0; col < WordleModel.word.size(); col++) {
-            StackPane letterBox = letterBox(rowNumber, col);
+            Label letterBox = letterBox(rowNumber, col);
             row.getChildren().add(letterBox);
         }
         WordleModel.infoText.addListener((observableValue, s, t1) -> {
@@ -111,8 +111,7 @@ public class View implements Builder<Region> {
         return row;
     }
 
-    private StackPane letterBox(int row, int col) {
-        StackPane stackPane = new StackPane();
+    private Label letterBox(int row, int col) {
         LetterModel letterModel = WordleModel.letters[row][col];
 
         // Text field
@@ -123,18 +122,15 @@ public class View implements Builder<Region> {
                 () -> letterModel.letter().get().toString(),
                 letterModel.letter()
         ));
+        // Centering text in label
+        label.setAlignment(Pos.CENTER);
 
-        // Letter background
-        stackPane.getStyleClass().add("tile-box");
         letterModel.status().addListener((observableValue, letterStatus, t1) -> {
             LetterStatus status = observableValue.getValue();
             status.updatePseudoClass(label, status);
-            status.updatePseudoClass(stackPane, status);
-            System.out.format("%d_%d: %s%n", row, col, stackPane.getBackground().getFills().get(0).getFill());
         });
-        stackPane.getChildren().add(label);
 
-        return stackPane;
+        return label;
     }
 
 }

@@ -34,8 +34,13 @@
 
 .tile-letter {
     -fx-text-fill: -text-fill-colour;
+    -fx-border-width: 2px;
+    -fx-border-color: -empty-border-colour;
+    -fx-background-color: -background-colour;
     -fx-font-size: 30px;
     -fx-font-weight: bold;
+    -fx-min-width: 62px;
+    -fx-min-height: 61px;
 }
 
 .tile-box {
