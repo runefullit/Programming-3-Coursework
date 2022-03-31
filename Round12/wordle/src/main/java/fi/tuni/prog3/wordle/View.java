@@ -1,12 +1,9 @@
 package fi.tuni.prog3.wordle;
 
 import javafx.beans.binding.Bindings;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Builder;
@@ -52,7 +49,7 @@ public class View implements Builder<Region> {
         ))));
         startGameBtn.setOnAction(actionEvent -> {
             setNewWord();
-            this.mainContainer.requestFocus(); // Startbutton grabs focus, if this isn't here.
+            this.mainContainer.requestFocus(); // Start button grabs focus, if this isn't here.
             // Removing containers used in old game,
             this.mainContainer.getChildren().removeAll(this.tilePane, this.infoBox, this.keyboard);
             // Instantiating new containers and adding them.
