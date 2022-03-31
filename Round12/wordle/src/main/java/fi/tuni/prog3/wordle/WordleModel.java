@@ -2,10 +2,7 @@ package fi.tuni.prog3.wordle;
 
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ObservableBooleanValue;
 
 import java.util.List;
@@ -16,6 +13,7 @@ public record WordleModel() {
     static LetterModel[][] letters;
     static IntegerProperty currentRow = new SimpleIntegerProperty();
     static int currentCol = 0;
+    static StringProperty infoText = new SimpleStringProperty("");
     static BooleanProperty darkMode = new SimpleBooleanProperty(false);
     static BooleanProperty wordGuessed = new SimpleBooleanProperty(false);
     static ObservableBooleanValue gameOver = Bindings.createBooleanBinding( () -> currentRow.get() > 5 || wordGuessed.get(), currentRow, wordGuessed);
@@ -38,7 +36,7 @@ public record WordleModel() {
                 .collect(Collectors.toList());
         populateLetterModel();
         currentRow.set(0);
-        currentRow.set(0);
+        currentCol = 0;
         wordGuessed.setValue(false);
         System.out.println(WordleModel.word);
     }

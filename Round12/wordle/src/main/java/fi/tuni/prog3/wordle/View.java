@@ -25,7 +25,7 @@ public class View extends Region {
         // PseudoClass darkModePseudoClass = PseudoClass.getPseudoClass("dark-mode");
     }
 
-    private HBox topRow() {
+    private VBox topRow() {
         Button startGameBtn = new Button("Start new game");
         startGameBtn.setId("startGameBtn");
         startGameBtn.setOnAction(actionEvent -> {
@@ -36,10 +36,17 @@ public class View extends Region {
             this.mainContainer.getChildren().add(this.tilePane);
         });
 
-        Label infoBox = new Label("Testmessage");
+        Label infoBox = new Label();
+        infoBox.textProperty().bind(Bindings.createStringBinding(
+                () -> WordleModel.infoText.get(),
+                WordleModel.infoText
+        ));
         infoBox.setId("infoBox");
 
-        return new HBox(startGameBtn, infoBox);
+        VBox topRow = new VBox(startGameBtn, infoBox);
+        topRow.setAlignment(Pos.CENTER);
+
+        return topRow;
     }
 
     private VBox createTilePane() {

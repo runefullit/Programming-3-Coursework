@@ -22,6 +22,8 @@ public class WordleInteractor {
             performCheck(guess);
             WordleModel.currentRow.set(WordleModel.currentRow.get() + 1);
             WordleModel.currentCol = 0;
+        } else {
+            WordleModel.infoText.setValue("Give a complete word before pressing Enter!");
         }
     }
 
