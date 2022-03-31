@@ -17,6 +17,7 @@ public class WordleData {
 
     private final List<String> words;
     private final Random rand = new Random();
+    private int current;
 
     public WordleData() throws URISyntaxException, IOException {
         URL url = WordleData.class.getResource("data/words.txt");
@@ -26,11 +27,20 @@ public class WordleData {
     }
 
     /**
-     * Get a random value from the given list of words.
-     *
-     * @return random entry from wordlist.
+     * Get the next word in given list.
+     * @return next word in list.
      */
     public String getWord() {
+        String retVal = this.words.get(this.current);
+        this.current++;
+        return retVal;
+    }
+
+    /**
+     * Get a random value from the given list of words.
+     * @return random entry from wordlist.
+     */
+    public String getRandomWord() {
         return words.get(rand.nextInt(words.size()));
     }
 }
