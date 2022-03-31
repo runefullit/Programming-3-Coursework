@@ -12,18 +12,6 @@
     -correct-colour: green;
 }
 
-.main-screen: dark-mode {
-    -white-colour: #d7dadc;
-    -wrong-colour: #3a3a3c;
-    -text-fill-colour: -white-colour;
-    -empty-border-colour: #3a3a3c;
-    -unlocked-border-colour: #565758;
-    -background-colour: #121213;
-    -key-background-colour: #818384;
-    -toast-background-colour: -white-colour;
-    -toast-letter-colour: black;
-}
-
 .startGame-button {
     -fx-border-color: -empty-border-colour;
     -fx-background-color: -key-background-colour;
@@ -107,11 +95,6 @@
     -fx-background-color: -background-colour;
     -fx-padding: 10px;
     -fx-alignment: top-center;
-}
-
-.test-border {
-    -fx-border-width: 2px;
-    -fx-border-color: red;
 }
 
 .bad-word {
