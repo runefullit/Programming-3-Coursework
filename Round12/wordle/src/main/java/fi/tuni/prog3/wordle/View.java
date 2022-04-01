@@ -124,7 +124,10 @@ public class View implements Builder<Region> {
         label.getStyleClass().add("tile-letter");
         label.setId(String.format("%d_%d", row, col));
         label.textProperty().bind(Bindings.createStringBinding(
-                () -> letterModel.letter().get().toString(),
+                () -> {
+                    String str = letterModel.letter().get().toString();
+                    return str.equals(" ") ? "" : str;
+                },
                 letterModel.letter()
         ));
         // Centering text in label
