@@ -16,11 +16,11 @@ public class Wordle extends Application {
             stage.sizeToScene();
             WordleModel.resizeWindow.setValue(false);
         });
-        WordleController controller = new WordleController();
-        Scene scene = new Scene(controller.view);
+        WordleController.build();
+        Scene scene = new Scene(WordleController.view);
         stage.setTitle("Wordle");
         stage.setScene(scene);
         stage.show();
-        controller.focus();
+        WordleController.focus();
     }
 }

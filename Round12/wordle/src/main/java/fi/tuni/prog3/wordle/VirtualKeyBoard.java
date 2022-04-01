@@ -55,7 +55,10 @@ public class VirtualKeyBoard extends VBox {
 
     private Button letterButtonSetup(char letter) {
         Button letterButton = createButton(String.valueOf(letter));
-        letterButton.setOnMouseClicked(mouseEvent -> keystrokeConsumer.accept(letter));
+        letterButton.setOnMouseClicked(mouseEvent -> {
+            keystrokeConsumer.accept(letter);
+            WordleController.focus();
+        });
         ObjectProperty<LetterStatus> letterStatus = alphabet.get(letter);
         letterStatus.get().addPseudoClass(letterButton, letterStatus);
         return letterButton;
@@ -77,13 +80,19 @@ public class VirtualKeyBoard extends VBox {
     private Button createBackSpaceKey() {
         Button backspaceButton = createButton("<");
         backspaceButton.setMinWidth(64.0);
-        backspaceButton.setOnAction(actionEvent -> backspaceHandler.run());
+        backspaceButton.setOnAction(actionEvent -> {
+            backspaceHandler.run();
+            WordleController.focus();
+        });
         return backspaceButton;
     }
 
     private Button createEnterKey() {
         Button enterButton = createButton("Enter");
-        enterButton.setOnAction(actionEvent -> enterHandler.run());
+        enterButton.setOnAction(actionEvent -> {
+            enterHandler.run();
+            WordleController.focus();
+        });
         return enterButton;
     }
 

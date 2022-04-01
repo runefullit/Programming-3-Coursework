@@ -7,12 +7,12 @@ import static fi.tuni.prog3.wordle.WordleInteractor.*;
 
 public class WordleController {
 
-    public Region view;
+    static Region view;
 
-    WordleController() {
+    static void build() {
         setNewWord();
-        this.view = new View().build();
-        this.view.setOnKeyPressed(keyEvent -> {
+        view = new View().build();
+        view.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode().equals(KeyCode.ENTER)) {
                 checkWord();
             } else if (keyEvent.getCode().equals(KeyCode.BACK_SPACE)) {
@@ -24,7 +24,7 @@ public class WordleController {
         });
     }
 
-    public void focus() {
+    static void focus() {
         view.requestFocus();
     }
 
