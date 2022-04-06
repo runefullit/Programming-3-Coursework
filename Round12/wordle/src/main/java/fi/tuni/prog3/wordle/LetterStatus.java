@@ -1,39 +1,29 @@
 package fi.tuni.prog3.wordle;
 
 import javafx.beans.property.ObjectProperty;
-import javafx.css.PseudoClass;
-import javafx.scene.Node;
+import javafx.geometry.Insets;
+import javafx.scene.control.Labeled;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 
 public enum LetterStatus {
     EMPTY, UNLOCKED, WRONG, PRESENT, CORRECT;
 
-    private final PseudoClass emptyPseudoClass = PseudoClass.getPseudoClass("empty");
-    private final PseudoClass unlockedPseudoClass = PseudoClass.getPseudoClass("unlocked");
-    private final PseudoClass wrongPseudoClass = PseudoClass.getPseudoClass("wrong");
-    private final PseudoClass presentPseudoClass = PseudoClass.getPseudoClass("present");
-    private final PseudoClass correctPseudoClass = PseudoClass.getPseudoClass("correct");
-
-    public void updatePseudoClass(Node node, LetterStatus letterStatus) {
-        node.pseudoClassStateChanged(emptyPseudoClass, false);
-        node.pseudoClassStateChanged(unlockedPseudoClass, false);
-        node.pseudoClassStateChanged(wrongPseudoClass, false);
-        node.pseudoClassStateChanged(presentPseudoClass, false);
-        node.pseudoClassStateChanged(correctPseudoClass, false);
-
-        if (letterStatus == EMPTY) {
-            node.pseudoClassStateChanged(emptyPseudoClass, true);
-        } else if (letterStatus == UNLOCKED) {
-            node.pseudoClassStateChanged(unlockedPseudoClass, true);
-        } else if (letterStatus == WRONG) {
-            node.pseudoClassStateChanged(wrongPseudoClass, true);
+    public void updateBackGround(Labeled node, LetterStatus letterStatus) {
+        Color color = Color.WHITE;
+        if (letterStatus == WRONG) {
+            color = Color.GRAY;
         } else if (letterStatus == PRESENT) {
-            node.pseudoClassStateChanged(presentPseudoClass, true);
+            color = Color.ORANGE;
         } else if (letterStatus == CORRECT) {
-            node.pseudoClassStateChanged(correctPseudoClass, true);
+            color = Color.GREEN;
         }
+        node.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
-    public void addPseudoClass(Node node, ObjectProperty<LetterStatus> property) {
-        property.addListener(e -> updatePseudoClass(node, property.get()));
+    public void addPseudoClass(Labeled node, ObjectProperty<LetterStatus> property) {
+        property.addListener(e -> updateBackGround(node, property.get()));
     }
 }

@@ -30,13 +30,6 @@ public class View implements Builder<Region> {
         this.keyboard = new VirtualKeyBoard();
         this.mainContainer = new VBox(40.0, topRow(), this.tilePane, this.infoBox, this.keyboard);
 
-        // CSS and positional tweaks.
-        File cssFile = new File("wordle.css");
-        try {
-            this.mainContainer.getStylesheets().add(cssFile.toURI().toURL().toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
         this.mainContainer.getStyleClass().add("main-screen");
         this.mainContainer.setAlignment(Pos.TOP_CENTER);
         return this.mainContainer;
@@ -47,7 +40,6 @@ public class View implements Builder<Region> {
 
         Button startGameBtn = new Button("Start new game");
         startGameBtn.setId("startGameBtn");
-        startGameBtn.getStyleClass().add("startGame-button");
         startGameBtn.addEventHandler(MOUSE_ENTERED_TARGET, mouseEvent -> startGameBtn.setBorder(new Border(new BorderStroke(Color.GRAY,
                 BorderStrokeStyle.SOLID,
                 new CornerRadii(2.0),
@@ -68,7 +60,6 @@ public class View implements Builder<Region> {
         });
 
         Label title = new Label("WordleFX");
-        title.getStyleClass().add("title");
 
         topRow.getChildren().addAll(startGameBtn, title);
         StackPane.setAlignment(startGameBtn, Pos.CENTER_LEFT);
@@ -87,7 +78,7 @@ public class View implements Builder<Region> {
 
     private Label createInfoBox() {
         Label infoBox = new Label();
-        infoBox.setOpacity(0.0);
+        infoBox.setOpacity(1.0);
         infoBox.textProperty().bind(Bindings.createStringBinding(
                 () -> WordleModel.infoText.get(),
                 WordleModel.infoText
@@ -96,7 +87,6 @@ public class View implements Builder<Region> {
             if (observableValue.getValue() != "") showToast(infoBox);
         });
         infoBox.setId("infoBox");
-        infoBox.getStyleClass().add("bad-word");
         return infoBox;
     }
 
@@ -121,7 +111,13 @@ public class View implements Builder<Region> {
 
         // Text field
         Label label = new Label();
-        label.getStyleClass().add("tile-letter");
+        label.setPrefSize(62, 61);
+        label.setAlignment(Pos.CENTER);
+        label.setBorder(new Border(new BorderStroke(Color.GRAY,
+                BorderStrokeStyle.SOLID,
+                new CornerRadii(2.0),
+                new BorderWidths(2.0)
+        )));
         label.setId(String.format("%d_%d", row, col));
         label.textProperty().bind(Bindings.createStringBinding(
                 () -> {
@@ -130,13 +126,15 @@ public class View implements Builder<Region> {
                 },
                 letterModel.letter()
         ));
-        // Centering text in label
-        label.setAlignment(Pos.CENTER);
 
         letterModel.status().addListener((observableValue, letterStatus, t1) -> {
             LetterStatus status = observableValue.getValue();
-            status.updatePseudoClass(label, status);
+            status.updateBackGround(label, status);
         });
+
+        // Calling this upon creation to initialize the background color according to LetterStatus
+        LetterStatus status = letterModel.status().getValue();
+        status.updateBackGround(label, status);
 
         return label;
     }

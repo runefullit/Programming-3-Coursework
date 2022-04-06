@@ -2,28 +2,9 @@ package fi.tuni.prog3.wordle;
 
 import javafx.animation.*;
 import javafx.scene.Node;
-import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 public class WordleAnimations {
-
-    // Use this in letterBox listener if it doesn't break grader.
-    static void flipTile(Node node, int col, LetterStatus letterStatus) {
-        double SPEED = 400.0;
-        RotateTransition rotation1 = new RotateTransition(new Duration(SPEED), node);
-        rotation1.setByAngle(90.0);
-        rotation1.setAxis(Rotate.X_AXIS);
-        rotation1.setOnFinished(e -> letterStatus.updatePseudoClass(node, letterStatus));
-
-        RotateTransition rotation2 = new RotateTransition(new Duration(SPEED), node);
-        rotation2.setByAngle(-90.0);
-        rotation2.setAxis(Rotate.X_AXIS);
-        new SequentialTransition(
-                new PauseTransition(new Duration(col * SPEED)),
-                rotation1,
-                rotation2
-        ).play();
-    }
 
     static void wiggleRow(Node node) {
         node.setTranslateX(-5.0);
