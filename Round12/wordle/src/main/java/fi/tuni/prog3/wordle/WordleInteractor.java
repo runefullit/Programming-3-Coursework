@@ -64,32 +64,17 @@ public class WordleInteractor {
         List<LetterModel> list = Arrays.asList(guess);
         ListIterator<LetterModel> listIterator = list.listIterator();
 
-        Set<Integer> correctIndexes = IntStream
-                .range(0, WordleModel.word.size())
-                .filter(i -> WordleModel.word.get(i) == guessList.get(i))
-                .boxed()
-                .collect(Collectors.toSet());
-
-        List<Character> trimmedWord = IntStream
-                .range(0, WordleModel.word.size())
-                .filter(i -> !correctIndexes.contains(i))
-                .mapToObj(c -> WordleModel.word.get(c))
-                .toList();
-
-        Set<Character> triedLetters = new HashSet<>();
-
         while (listIterator.hasNext()) {
             int index = listIterator.nextIndex();
             LetterModel letterModel = listIterator.next();
             char letter = letterModel.letter().get();
             if (WordleModel.word.get(index) == letter) {
                 letterModel.status().set(LetterStatus.CORRECT);
-            } else if (guessList.contains(letter) && trimmedWord.contains(letter) && !triedLetters.contains(letter)) {
+            } else if (WordleModel.word.contains(letter)) {
                 letterModel.status().set(LetterStatus.PRESENT);
             } else {
                 letterModel.status().set(LetterStatus.WRONG);
             }
-            triedLetters.add(letter);
         }
     }
 
