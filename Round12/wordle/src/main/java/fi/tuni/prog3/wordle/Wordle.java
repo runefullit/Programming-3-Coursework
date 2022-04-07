@@ -15,6 +15,7 @@ public class Wordle extends Application {
         WordleModel.windowShouldResize.addListener((observableValue, aBoolean, t1) -> {
             stage.sizeToScene();
             WordleModel.resizeWindow.setValue(false);
+            System.out.println("Window has been resized, starting new game complete.");
         });
         WordleController.build();
         Scene scene = new Scene(WordleController.view);
