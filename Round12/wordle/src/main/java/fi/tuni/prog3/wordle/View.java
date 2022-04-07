@@ -14,17 +14,13 @@ import static javafx.scene.input.MouseEvent.MOUSE_ENTERED_TARGET;
 
 public class View implements Builder<Region> {
     private VBox tilePane;
-    private Region keyboard;
-    private Label infoBox;
     private VBox mainContainer;
 
     @Override
     public Region build() {
         // Initialising UI elements
         this.tilePane = createTilePane();
-        this.infoBox = createInfoBox();
-        this.keyboard = new VirtualKeyBoard();
-        this.mainContainer = new VBox(40.0, topRow(), this.tilePane, this.infoBox, this.keyboard);
+        this.mainContainer = new VBox(40.0, topRow(), this.tilePane, createInfoBox(), new VirtualKeyBoard());
 
         this.mainContainer.getStyleClass().add("main-screen");
         this.mainContainer.setAlignment(Pos.TOP_CENTER);
@@ -124,15 +120,16 @@ public class View implements Builder<Region> {
     private void startNewGame() {
         setNewWord();
         this.mainContainer.requestFocus(); // Start button grabs focus, if this isn't here.
-        // Removing containers used in old game,
-        this.mainContainer.getChildren().removeAll(this.tilePane, this.infoBox, this.keyboard);
-        // Instantiating new containers and adding them.
-        this.tilePane = createTilePane();
-        this.infoBox = createInfoBox();
-        this.keyboard = new VirtualKeyBoard();
-        this.mainContainer.getChildren().addAll(this.tilePane, this.infoBox, this.keyboard);
+        repopulateTilePane();
         // Tells stage that it should be resized.
         WordleModel.resizeWindow.setValue(true);
+    }
+
+    private void repopulateTilePane() {
+        this.tilePane.getChildren().clear();
+        for (int i = 0; i < 6; i++) {
+            this.tilePane.getChildren().add(createRow(i));
+        }
     }
 
 }
