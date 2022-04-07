@@ -1,6 +1,9 @@
 package fi.tuni.prog3.wordle;
 
-import javafx.animation.*;
+import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import javafx.util.Duration;
 

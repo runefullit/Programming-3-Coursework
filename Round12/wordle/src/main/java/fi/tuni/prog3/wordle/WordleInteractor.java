@@ -2,9 +2,9 @@ package fi.tuni.prog3.wordle;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
 
 public class WordleInteractor {
 
