@@ -22,5 +22,6 @@ public class Wordle extends Application {
         stage.setScene(scene);
         stage.show();
         WordleController.focus();
+        System.out.format("This should fail with 3 letter words. Fetching ID %s%n", scene.lookup("#0_3"));
     }
 }
