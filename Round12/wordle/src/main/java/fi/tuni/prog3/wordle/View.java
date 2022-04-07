@@ -78,14 +78,10 @@ public class View implements Builder<Region> {
 
     private Label createInfoBox() {
         Label infoBox = new Label();
-        infoBox.setOpacity(1.0);
         infoBox.textProperty().bind(Bindings.createStringBinding(
                 () -> WordleModel.infoText.get(),
                 WordleModel.infoText
         ));
-        WordleModel.infoText.addListener((observableValue, s, t1) -> {
-            if (observableValue.getValue() != "") showToast(infoBox);
-        });
         infoBox.setId("infoBox");
         return infoBox;
     }

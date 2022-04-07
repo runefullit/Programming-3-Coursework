@@ -67,7 +67,6 @@ public class VirtualKeyBoard extends VBox {
     private Button createButton(String letter) {
         Button button = new Button(letter);
         button.setMinSize(44.0, 58.0);
-        button.getStyleClass().add("key-button");
         button.addEventHandler(MOUSE_ENTERED_TARGET, mouseEvent -> button.setBorder(new Border(new BorderStroke(Color.GRAY,
                 BorderStrokeStyle.SOLID,
                 new CornerRadii(2.0),

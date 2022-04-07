@@ -53,6 +53,7 @@ public record WordleModel() {
         );
         populateLetterModel();
         initAlphabet();
+        infoText.set("");
         currentRow.set(0);
         currentCol = 0;
         wordGuessed.setValue(false);
