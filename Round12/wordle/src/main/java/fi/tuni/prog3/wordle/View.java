@@ -11,6 +11,7 @@ import javafx.util.Builder;
 import static fi.tuni.prog3.wordle.WordleAnimations.wiggleRow;
 import static fi.tuni.prog3.wordle.WordleInteractor.setNewWord;
 import static javafx.scene.input.MouseEvent.MOUSE_ENTERED_TARGET;
+import static javafx.scene.input.MouseEvent.MOUSE_EXITED_TARGET;
 
 public class View implements Builder<Region> {
     private VBox tilePane;
@@ -32,11 +33,12 @@ public class View implements Builder<Region> {
 
         Button startGameBtn = new Button("Start new game");
         startGameBtn.setId("newGameBtn");
-        startGameBtn.addEventHandler(MOUSE_ENTERED_TARGET, mouseEvent -> startGameBtn.setBorder(new Border(new BorderStroke(Color.GRAY,
-                BorderStrokeStyle.SOLID,
-                new CornerRadii(2.0),
-                new BorderWidths(2.0)
-        ))));
+//        startGameBtn.addEventHandler(MOUSE_ENTERED_TARGET, mouseEvent -> startGameBtn.setBorder(new Border(new BorderStroke(Color.GRAY,
+//                BorderStrokeStyle.SOLID,
+//                new CornerRadii(2.0),
+//                new BorderWidths(2.0)
+//        ))));
+//        startGameBtn.addEventHandler(MOUSE_EXITED_TARGET, mouseEvent -> startGameBtn.setBorder(Border.EMPTY));
         startGameBtn.setOnAction(actionEvent -> startNewGame());
 
         Label title = new Label("WordleFX");
