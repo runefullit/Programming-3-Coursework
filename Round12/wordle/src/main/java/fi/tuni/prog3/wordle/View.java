@@ -41,23 +41,7 @@ public class View implements Builder<Region> {
                 new CornerRadii(2.0),
                 new BorderWidths(2.0)
         ))));
-        startGameBtn.setOnAction(actionEvent -> {
-            setNewWord();
-            System.out.println("New word has been set and WordleModel reset.");
-            this.mainContainer.requestFocus(); // Start button grabs focus, if this isn't here.
-            // Removing containers used in old game,
-            this.mainContainer.getChildren().removeAll(this.tilePane, this.infoBox, this.keyboard);
-            System.out.println("Old elements have been tossed");
-            // Instantiating new containers and adding them.
-            this.tilePane = createTilePane();
-            this.infoBox = createInfoBox();
-            this.keyboard = new VirtualKeyBoard();
-            this.mainContainer.getChildren().addAll(this.tilePane, this.infoBox, this.keyboard);
-            System.out.println("New elements have been added");
-            // Tells stage that it should be resized.
-            WordleModel.resizeWindow.setValue(true);
-            System.out.println("New game start setup has finished running.");
-        });
+        startGameBtn.setOnAction(actionEvent -> startNewGame());
 
         Label title = new Label("WordleFX");
 
@@ -133,6 +117,25 @@ public class View implements Builder<Region> {
         status.updateBackGround(label, status);
 
         return label;
+    }
+
+    private void startNewGame() {
+        System.out.println("New game setup is starting.");
+        setNewWord();
+        System.out.println("New word has been set and WordleModel reset.");
+        this.mainContainer.requestFocus(); // Start button grabs focus, if this isn't here.
+        // Removing containers used in old game,
+        this.mainContainer.getChildren().removeAll(this.tilePane, this.infoBox, this.keyboard);
+        System.out.println("Old elements have been tossed");
+        // Instantiating new containers and adding them.
+        this.tilePane = createTilePane();
+        this.infoBox = createInfoBox();
+        this.keyboard = new VirtualKeyBoard();
+        this.mainContainer.getChildren().addAll(this.tilePane, this.infoBox, this.keyboard);
+        System.out.println("New elements have been added");
+        // Tells stage that it should be resized.
+        WordleModel.resizeWindow.setValue(true);
+        System.out.println("New game start setup has finished running.");
     }
 
 }
