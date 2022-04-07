@@ -39,7 +39,7 @@ public class View implements Builder<Region> {
         StackPane topRow = new StackPane();
 
         Button startGameBtn = new Button("Start new game");
-        startGameBtn.setId("startGameBtn");
+        startGameBtn.setId("newGameBtn");
         startGameBtn.addEventHandler(MOUSE_ENTERED_TARGET, mouseEvent -> startGameBtn.setBorder(new Border(new BorderStroke(Color.GRAY,
                 BorderStrokeStyle.SOLID,
                 new CornerRadii(2.0),
