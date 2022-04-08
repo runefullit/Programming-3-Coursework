@@ -10,7 +10,7 @@ public class WordleInteractor {
 
     private static WordleData data = null;
 
-    static {
+    static void initDb() {
         try {
             data = new WordleData();
         } catch (URISyntaxException | IOException e) {

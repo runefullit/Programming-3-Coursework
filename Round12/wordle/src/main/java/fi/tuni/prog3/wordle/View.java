@@ -51,7 +51,6 @@ public class View implements Builder<Region> {
     }
 
     private VBox createTilePane() {
-        System.out.println("Creating new TilePane");
         VBox tilePane = new VBox(7.0);
         for (int i = 0; i < 6; i++) {
             tilePane.getChildren().add(createRow(i));
@@ -60,7 +59,6 @@ public class View implements Builder<Region> {
     }
 
     private Label createInfoBox() {
-        System.out.println("Creating new infoBox");
         Label infoBox = new Label();
         infoBox.textProperty().bind(Bindings.createStringBinding(
                 () -> WordleModel.infoText.get(),
